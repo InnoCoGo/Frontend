@@ -8,11 +8,16 @@ import CryptoJS from 'crypto-js'
 import Hex from 'crypto-js/enc-hex'
 
 function App() {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const { initData } = window.Telegram.WebApp
+
     const [selectedDateInfo, setSelectedDateInfo] = useState<dateInfo | null>(null)
     const [tgUser, setTgUser] = useState<telegramInfo | null>(null)
     return (
         <>
-
+            {"here:"}
+            {initData}
             {tgUser !== null ? null :
                 <AuthPage dataOnAuth={function (info: telegramInfo) {
                     const infoAsMap = new Map(Object.entries(info));
