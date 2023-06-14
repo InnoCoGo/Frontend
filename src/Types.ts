@@ -12,7 +12,7 @@ export type telegramManualAuthInfo = {
     hash: string
 }
 export type telegramWebAppAuthInfo = {
-    query_id:string,
+    query_id: string,
     hash: string,
     auth_date: number,
     user: string
@@ -22,14 +22,15 @@ export type webappAuthUser = {
     last_name: string,
     id: number,
     username: string,
-    language_code:string
+    language_code: string
 }
 
-export function getWebappAuthUser(authInfo:telegramWebAppAuthInfo):webappAuthUser{
+export function getWebappAuthUser(authInfo: telegramWebAppAuthInfo): webappAuthUser {
     return JSON.parse(authInfo.user);
 }
-export function getUsername(authInfo:telegramAuthInfo):string{
-    if ("user" in authInfo){
+
+export function getUsername(authInfo: telegramAuthInfo): string {
+    if ("user" in authInfo) {
         return getWebappAuthUser(authInfo).username
     }
     return authInfo.username
