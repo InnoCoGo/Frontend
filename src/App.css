@@ -7,15 +7,21 @@
 
 .flex-container {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
 }
 
-.flex-container > select {
-    width: 100px;
-    margin: 10px;
-    text-align: center;
-    line-height: 75px;
-    font-size: 30px;
-    display: table-cell; vertical-align: middle;
+.flex-element {
+    /*flex: 1;*/
 }
+
+/*.flex-container > select {*/
+/*    width: 100px;*/
+/*    margin: 10px;*/
+/*    text-align: center;*/
+/*    line-height: 75px;*/
+/*    font-size: 30px;*/
+/*    display: table-cell; vertical-align: middle;*/
+/*}*/
