@@ -51,24 +51,31 @@ export function FilterBar() {
         <CssBaseline/>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className="flex-container">
-                From:
-                <Select
-                    defaultValue={selectedDeparturePoint}
-                    onChange={setSelectedDeparturePoint}
-                    options={travelPointsOptions}
-                    placeholder={"Departure point"}
-                    theme={selectTheme}
-                />
-                To:
-                <Select
-                    defaultValue={selectedArrivalPoint}
-                    onChange={setSelectedArrivalPoint}
-                    options={travelPointsOptions}
-                    placeholder={"Arrival point"}
-                    theme={selectTheme}
-                />
-                At:
-                <DateTimePicker/>
+                <div className="flex-container-horizontal">
+                    From:
+                    <Select
+                        defaultValue={selectedDeparturePoint}
+                        onChange={setSelectedDeparturePoint}
+                        options={travelPointsOptions}
+                        placeholder={"Departure point"}
+                        theme={selectTheme}
+                    />
+                </div>
+                <div className="flex-container-horizontal">
+                    To:
+                    <Select
+                        defaultValue={selectedArrivalPoint}
+                        onChange={setSelectedArrivalPoint}
+                        options={travelPointsOptions}
+                        placeholder={"Arrival point"}
+                        theme={selectTheme}
+                    />
+                </div>
+                <div className="flex-container-horizontal">
+                    At:
+                    <DateTimePicker/>
+                </div>
+                <button>Ok</button>
             </div>
         </LocalizationProvider>
     </ThemeProvider>;
