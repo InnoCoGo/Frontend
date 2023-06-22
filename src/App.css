@@ -27,6 +27,18 @@
     /*flex: 1;*/
 }
 
+.trip-block {
+    margin: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
 /*.flex-container > select {*/
 /*    width: 100px;*/
 /*    margin: 10px;*/
