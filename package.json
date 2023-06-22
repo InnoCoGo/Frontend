@@ -27,8 +27,7 @@
     "react-dom": "^18.2.0",
     "react-select": "^5.7.3",
     "react-telegram-login": "^1.1.2",
-    "styled-components": "^5.3.11",
-    "tsc": "^2.0.4"
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
