@@ -20,8 +20,8 @@ function getThemeSelector(prefersDark: boolean) {
     return (theme: Theme) => ({
         ...theme,
         colors: {
-            primary25: 'gray',
-            primary: prefersDark? 'white': 'black',
+            primary25: prefersDark? 'gray': '#C1C1C1',
+            primary: prefersDark? '#C1C1C1': 'gray',
             neutral0: (prefersDark? 'black': 'white'),
             primary75: '', primary50: '', danger: '',
             dangerLight: '', neutral5: '', neutral10: '', neutral20: '',
@@ -60,10 +60,14 @@ export function FilterBar() {
         {value: 'verkhniy uslon', label: 'Verkhniy Uslon'}
     ];
 
-    // TODO: improve
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    function TripBlock({departure, arrival, date, passengers, username, extraNote}):JSX.Element {
+    type tripBlockProps = {departure:string,
+        arrival: string,
+        date: string,
+        passengers:number,
+        username: string,
+        extraNote: string}
+    type tripBlockDescription = tripBlockProps & {tripId:number};
+    function TripBlock({departure, arrival, date, passengers, username, extraNote}:tripBlockProps):JSX.Element {
         return <Card className="trip-block">
             <CardContent>
                 <Typography variant="h6">Departure: {departure}</Typography>
@@ -80,9 +84,9 @@ export function FilterBar() {
     }
 
 
-    const tripData = [
+    const tripData:tripBlockDescription[] = [
         {
-            trip_id: 1,
+            tripId: 1,
             departure: "Innopolis",
             arrival: "Kazan",
             date: dayjs("2023-06-25 10:00", "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm"),
@@ -91,7 +95,7 @@ export function FilterBar() {
             extraNote: "Need extra legroom",
         },
         {
-            trip_id: 2,
+            tripId: 2,
             departure: "Kazan",
             arrival: "Innopolis",
             date: dayjs("2023-06-25 12:00", "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm"),
@@ -100,7 +104,7 @@ export function FilterBar() {
             extraNote: "I have a dog",
         },
         {
-            trip_id: 3,
+            tripId: 3,
             departure: "Kazan",
             arrival: "Verkhniy Uslon",
             date: dayjs("2023-06-22 15:00", "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm"),
@@ -109,7 +113,7 @@ export function FilterBar() {
             extraNote: "Price:300RUB",
         },
         {
-            trip_id: 4,
+            tripId: 4,
             departure: "Kazan",
             arrival: "Innopolis",
             date: dayjs("2023-06-24 19:00", "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm"),
@@ -118,7 +122,7 @@ export function FilterBar() {
             extraNote: "Business class",
         },
         {
-            trip_id: 5,
+            tripId: 5,
             departure: "Innopolis",
             arrival: "Verkhniy Uslon",
             date: dayjs("2023-06-24 12:00", "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm"),
@@ -153,7 +157,7 @@ export function FilterBar() {
         return <div className="results">
             {filteredTripData.map((trip) => (
                 <TripBlock
-                    key={trip.trip_id}
+                    key={trip.tripId}
                     departure={trip.departure}
                     arrival={trip.arrival}
                     date={trip.date}
