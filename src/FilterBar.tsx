@@ -23,16 +23,16 @@ export function FilterBar(props: {
         value: string;
         label: string
     } | null)) | { value: string; label: string } | null)) => void,
-    options: ({ label: string; value: string })[],
+    travelPointOptions: ({ label: string; value: string })[],
     prefersDark: boolean,
     defaultValueEndLocation: { value: string; label: string } | null,
     onChangeEndLocation: (value: (((prevState: ({ value: string; label: string } | null)) => ({
         value: string;
         label: string
     } | null)) | { value: string; label: string } | null)) => void,
-    value: Dayjs | null,
+    chosenDateTime: Dayjs | null,
     onDateTimeChange: (newValue: Dayjs | null) => void,
-    onClick: () => void
+    onConfirmFilters: () => void
 }) {
     return <div className="flex-container">
         <div className="flex-container-horizontal">
@@ -40,7 +40,7 @@ export function FilterBar(props: {
             <Select
                 defaultValue={props.defaultValueStartLocation}
                 onChange={props.onChangeStartLocation}
-                options={props.options}
+                options={props.travelPointOptions}
                 placeholder={"Start point"}
                 theme={getThemeSelector(props.prefersDark)}
             />
@@ -50,7 +50,7 @@ export function FilterBar(props: {
             <Select
                 defaultValue={props.defaultValueEndLocation}
                 onChange={props.onChangeEndLocation}
-                options={props.options}
+                options={props.travelPointOptions}
                 placeholder={"End point"}
                 theme={getThemeSelector(props.prefersDark)}
             />
@@ -58,10 +58,10 @@ export function FilterBar(props: {
         <div className="flex-container-horizontal">
             At:
             <DateTimePicker
-                value={props.value}
+                value={props.chosenDateTime}
                 onChange={props.onDateTimeChange}
             />
         </div>
-        <button onClick={props.onClick}>Ok</button>
+        <button onClick={props.onConfirmFilters}>Ok</button>
     </div>;
 }
