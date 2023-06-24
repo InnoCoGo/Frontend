@@ -39,9 +39,6 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-        env:
-          VITE_TG_BOT_TOKEN_HEX: ${{ secrets.VITE_TG_BOT_TOKEN_HEX }}
-          VITE_TG_BOT_WEBAPP_TOKEN_HEX: ${{ secrets.VITE_TG_BOT_WEBAPP_TOKEN_HEX }}
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

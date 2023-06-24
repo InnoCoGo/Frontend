@@ -6,7 +6,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {FilterBar} from "./FilterBar.tsx";
 import {TripCollection} from "./TripCollection.tsx";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import dayjs, {Dayjs} from "dayjs";
 
@@ -14,6 +14,11 @@ import dayjs, {Dayjs} from "dayjs";
 export function SignedInMainView(props: {
     token: string
 }) {
+
+    // TODO: remove
+    useEffect(()=>{
+        console.log(props)
+    }, [])
 
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
