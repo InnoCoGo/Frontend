@@ -4,7 +4,7 @@ import {getUsername, telegramAuthInfo, telegramWebAppAuthInfo} from "./Types.ts"
 import {AuthPage} from "./AuthPage.tsx";
 import CryptoJS from 'crypto-js'
 import Hex from 'crypto-js/enc-hex'
-import {FilterBar} from "./FilterBar.tsx";
+import {MainView} from "./MainView.tsx";
 
 function parseAuthString(initData: string): telegramWebAppAuthInfo {
     const searchParams = new URLSearchParams(initData);
@@ -73,7 +73,7 @@ function App() {
             }
             {
                 tgUser === null ? null :
-                    <FilterBar/>
+                    <MainView/>
             }
         </>
     )

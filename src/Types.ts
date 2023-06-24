@@ -1,7 +1,6 @@
 export type dateInfo = { date: string, dateElement: HTMLElement }
 
 export type telegramAuthInfo = telegramManualAuthInfo | telegramWebAppAuthInfo;
-
 export type telegramManualAuthInfo = {
     id: number,
     first_name: string,
