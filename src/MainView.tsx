@@ -6,7 +6,7 @@ import {SignedInMainView} from "./SignedInMainView.tsx";
 
 dayjs.extend(customParseFormat);
 
-const SERVER_URL = 'http://81.200.151.192:8000'
+const SERVER_URL = 'https://inno.co-go.chickenkiller.com'
 
 async function tryRetrieveToken(setToken: (token: string | null) => void, authInfo: telegramAuthInfo) {
     const response = await fetch(`${SERVER_URL}/api/v1/auth/tg-login`, {
