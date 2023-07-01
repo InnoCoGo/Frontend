@@ -69,6 +69,6 @@ export function FilterBar(props: {
                 onChange={props.onDateTimeChange}
             />
         </div>
-        <Button onClick={props.onConfirmFilters}>Ok</Button>
+        <Button variant="contained" onClick={props.onConfirmFilters}>Ok</Button>
     </div>;
 }
