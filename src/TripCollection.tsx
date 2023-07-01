@@ -3,6 +3,7 @@ import useFetch from "./UseFetch.ts";
 import {SERVER_URL} from "./MainView.tsx";
 
 export type singleTripDescription = {
+    "admin_username": string,
     "admin_id": number,
     "is_driver": boolean,
     "places_max": number,
@@ -14,7 +15,7 @@ export type singleTripDescription = {
 }
 export type serverAdjacentTripsResponse =
     {
-        data: singleTripDescription[]
+        data: singleTripDescription[] | null
     }
 export type serverAdjacentTripsRequest = {
     "left_timestamp" : string, // new Date()-parsable string
@@ -31,20 +32,20 @@ export function TripCollection(props: { pointToName: Map<number, string>, token:
         errorMessage,
         hasError,
         isLoading,
-    } = useFetch<serverAdjacentTripsResponse>(`${SERVER_URL}/api/v1/trip/adjacent?token=${props.token}`, JSON.stringify(props.filters), "get", false)
+    } = useFetch<serverAdjacentTripsResponse>(`${SERVER_URL}/api/v1/trip/adjacent?token=${props.token}`, JSON.stringify(props.filters), "put", false)
 
     return <div className="results">
         { hasError? errorMessage :
             isLoading || data == null ? "loading..." :
-
+                data.data == null? "NO MATCHES" :
                 data.data.map((trip, index) => (
             <TripBlock
                 key={index}
+                username={trip.admin_username}
                 departure={props.pointToName.get(trip.from_point) ?? `UNKNOWN VALUE: ${trip.from_point}`}
                 arrival={props.pointToName.get(trip.to_point) ?? `UNKNOWN VALUE: ${trip.to_point}`}
                 date={trip.chosen_timestamp}
                 passengers={trip.places_max - trip.places_taken}
-                username={trip.admin_id.toString()} // TODO: accept alias instead from the backend
                 extraNote={trip.description}
             />
         ))}

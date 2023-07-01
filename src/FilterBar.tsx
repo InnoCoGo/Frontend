@@ -48,6 +48,7 @@ export function FilterBar(props: {
                 options={props.travelPointOptions}
                 placeholder={"Start point"}
                 theme={getThemeSelector(props.prefersDark)}
+                isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">
@@ -58,6 +59,7 @@ export function FilterBar(props: {
                 options={props.travelPointOptions}
                 placeholder={"End point"}
                 theme={getThemeSelector(props.prefersDark)}
+                isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">

@@ -6,14 +6,14 @@ import {FilterBar} from "./FilterBar.tsx";
 import {serverAdjacentTripsRequest, TripCollection} from "./TripCollection.tsx";
 import * as React from "react";
 import { useState} from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import dayjs, {Dayjs} from "dayjs";
+import {getDefaultDarkMode} from "./TelegramUtils.ts";
 
 export function SignedInMainView(props: {
     token: string
 }) {
 
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const prefersDarkMode = getDefaultDarkMode();
 
     const theme = React.useMemo(
         () =>
@@ -49,7 +49,7 @@ export function SignedInMainView(props: {
             setFilters(null);
         else {
             // TODO: decide on value
-            const filteringThresholdInHours = 1;
+            const filteringThresholdInHours = 24;
             setFilters(
                 {
                     left_timestamp:selectedDateTime.add(-filteringThresholdInHours,'hour').toISOString(),

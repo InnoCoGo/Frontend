@@ -22,7 +22,7 @@ function useFetch<T>(initialUrl:string, params:string, method:string, skip = fal
                         'Content-Type': 'application/json'
                     },
 
-                    body: JSON.stringify(params)
+                    body: params
                 });
                 const result = await response.json()
                 if (response.ok) {

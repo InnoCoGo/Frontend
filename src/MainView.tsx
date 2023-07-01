@@ -37,10 +37,6 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
 
 export function MainView({authInfo}: { authInfo: telegramAuthInfo }) {
 
-    //const token = useFetch(`${SERVER_URL}/api/v1/trip/?token=${token}`)
-    //useFetch(`${SERVER_URL}/api/v1/trip/?token=${token}`)
-
-
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
