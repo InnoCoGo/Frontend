@@ -32,10 +32,10 @@ export function calculateHash(info: telegramAuthInfo) {
     return CryptoJS.HmacSHA256(dataCheckString, secretKey);
 }
 
-export function getDefaultDarkMode(){
+export function getDefaultDarkMode() {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const answer:boolean =  window.Telegram.WebApp.colorScheme === 'dark'
+    const answer: boolean = window.Telegram.WebApp.colorScheme === 'dark'
     return answer;
 }
 
