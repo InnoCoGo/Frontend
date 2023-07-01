@@ -34,9 +34,9 @@ export function SignedInMainView(props: {
 
 
     const travelPointsOptions = [
-        {value: '1', label: 'Innopolis'},
-        {value: '2', label: 'Kazan'},
-        {value: '3', label: 'Verkhniy Uslon'}
+        {value: '0', label: 'Innopolis'},
+        {value: '1', label: 'Kazan'},
+        {value: '2', label: 'Verkhniy Uslon'}
     ];
     const numberToLabel = new Map(travelPointsOptions
         .map(({ label}, index) => [index,label]))
