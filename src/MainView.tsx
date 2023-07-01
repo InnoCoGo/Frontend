@@ -6,7 +6,8 @@ import {SignedInMainView} from "./SignedInMainView.tsx";
 
 dayjs.extend(customParseFormat);
 
-const SERVER_URL = 'https://inno.co-go.chickenkiller.com'
+// TODO: move to .env
+export const SERVER_URL = 'https://inno.co-go.chickenkiller.com'
 
 async function tryRetrieveToken(setToken: (token: string | null) => void, authInfo: telegramAuthInfo) {
     const response = await fetch(`${SERVER_URL}/api/v1/auth/tg-login`, {
@@ -35,10 +36,6 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
 }
 
 export function MainView({authInfo}: { authInfo: telegramAuthInfo }) {
-
-    //const token = useFetch(`${SERVER_URL}/api/v1/trip/?token=${token}`)
-    //useFetch(`${SERVER_URL}/api/v1/trip/?token=${token}`)
-
 
     const [token, setToken] = useState<string | null>(null);
 
