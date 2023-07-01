@@ -1,14 +1,10 @@
 import {tripBlockDescription} from "./TripBlock.tsx";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {FilterBar} from "./FilterBar.tsx";
 import {TripCollection} from "./TripCollection.tsx";
-import * as React from "react";
 import {useEffect, useState} from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import dayjs, {Dayjs} from "dayjs";
+import {useDarkMode} from "usehooks-ts";
+import {getDefaultDarkMode} from "./TelegramUtils.ts";
 
 
 export function SignedInMainView(props: {
@@ -20,17 +16,7 @@ export function SignedInMainView(props: {
         console.log(props)
     }, [])
 
-    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-    const theme = React.useMemo(
-        () =>
-            createTheme({
-                palette: {
-                    mode: prefersDarkMode ? 'dark' : 'light',
-                },
-            }),
-        [prefersDarkMode],
-    );
+    const {isDarkMode } = useDarkMode(getDefaultDarkMode())
 
 
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
@@ -115,18 +101,14 @@ export function SignedInMainView(props: {
         }
     }
 
-    return <ThemeProvider theme={theme}>
-        <CssBaseline/>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FilterBar defaultValueStartLocation={selectedDeparturePoint}
+    return <>
+        <FilterBar defaultValueStartLocation={selectedDeparturePoint}
                        onChangeStartLocation={setSelectedDeparturePoint}
-                       travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
+                       travelPointOptions={travelPointsOptions} prefersDark={isDarkMode}
                        defaultValueEndLocation={selectedArrivalPoint}
                        onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
                        onDateTimeChange={setSelectedDateTime} onConfirmFilters={filterTrips}/>
             <TripCollection filteredTripData={filteredTripData}/>
-        </LocalizationProvider>
-    </ThemeProvider>
-        ;
+        </>
 
 }

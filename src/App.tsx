@@ -1,66 +1,16 @@
 import {useState} from 'react'
 import './App.css'
-import {telegramAuthInfo, telegramManualAuthInfo, telegramWebAppAuthInfo} from "./Types.ts";
+import {telegramAuthInfo} from "./Types.ts";
 import {AuthPage} from "./AuthPage.tsx";
-import CryptoJS from 'crypto-js'
-import Hex from 'crypto-js/enc-hex'
 import {MainView} from "./MainView.tsx";
+import {getDefaultDarkMode, getInitialTgAuthInfo} from "./TelegramUtils.ts";
+import CssBaseline from "@mui/material/CssBaseline";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import * as React from "react";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {useDarkMode} from "usehooks-ts";
 
-function parseAuthString(initData: string): telegramWebAppAuthInfo {
-    const searchParams = new URLSearchParams(initData);
-
-    return {
-        user: searchParams.get('user')!,
-        auth_date: parseInt(searchParams.get('auth_date')!),
-        query_id: searchParams.get('query_id')!,
-        hash: searchParams.get('hash')!
-    };
-}
-
-function calculateHash(info: telegramAuthInfo) {
-    const isWebapp = "user" in info;
-    const map = new Map(Object.entries(info));
-    map.delete('hash')
-    const lineFeedCharacter = String.fromCharCode(10)
-    const dataCheckString = Array.from(map.keys())
-        .sort()
-        .map(key => `${key}=${map.get(key)}`)
-        .join(lineFeedCharacter);
-
-    console.warn('RUNNING HASH CALCULATION [DEBUG]')
-    console.log('data check string:')
-    console.log(dataCheckString)
-    console.log('------')
-
-    const secretKey = CryptoJS.enc.Hex.parse(isWebapp ? import.meta.env.VITE_TG_BOT_WEBAPP_TOKEN_HEX : import.meta.env.VITE_TG_BOT_TOKEN_HEX);
-    return CryptoJS.HmacSHA256(dataCheckString, secretKey);
-}
-
-function getInitialTgAuthInfo(initData: string) {
-    const isWebapp = initData != '';
-    if (isWebapp) {
-        return parseAuthString(initData);
-    } else {
-        const testTgUser: string | undefined = import.meta.env.VITE_TEST_TG_INIT_DATA
-        const shouldFalsifyAuth = typeof import.meta.env.VITE_TG_BOT_WEBAPP_TOKEN_HEX != 'undefined'
-        const authInfo: null | telegramManualAuthInfo =
-            testTgUser === undefined ?
-                null
-                : JSON.parse(testTgUser)
-
-        // For comfortable local dev:
-        if (shouldFalsifyAuth && authInfo !== null) {
-            console.warn("FALSIFYING AUTH DATA [DEBUG]")
-            console.log("Before falsifying:")
-            console.log(authInfo)
-            authInfo.auth_date = Date.now()
-            authInfo.hash = calculateHash(authInfo).toString(Hex);
-            console.log("After falsifying:")
-            console.log(authInfo)
-        }
-        return authInfo
-    }
-}
 
 function App() {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -70,8 +20,20 @@ function App() {
     const [tgUser, setTgUser] = useState<telegramAuthInfo | null>(
         getInitialTgAuthInfo(initData)
     )
-    return (
-        <>
+    const {isDarkMode } = useDarkMode(getDefaultDarkMode())
+    const theme = React.useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode: isDarkMode ? 'dark' : 'light',
+                },
+            }),
+        [isDarkMode],
+    );
+
+    return <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
             {tgUser !== null ? null :
                 <AuthPage dataOnAuth={function (info: telegramAuthInfo) {
                     setTgUser(info)
@@ -81,8 +43,9 @@ function App() {
                 tgUser === null ? null :
                     <MainView authInfo={tgUser}/>
             }
-        </>
-    )
+        </LocalizationProvider>
+        </ThemeProvider>
+
 }
 
 export default App
