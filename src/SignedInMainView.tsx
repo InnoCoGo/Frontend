@@ -3,7 +3,6 @@ import {FilterBar} from "./FilterBar.tsx";
 import {TripCollection} from "./TripCollection.tsx";
 import {useEffect, useState} from "react";
 import dayjs, {Dayjs} from "dayjs";
-import {useDarkMode} from "usehooks-ts";
 import {getDefaultDarkMode} from "./TelegramUtils.ts";
 
 
@@ -12,11 +11,11 @@ export function SignedInMainView(props: {
 }) {
 
     // TODO: remove
-    useEffect(()=>{
+    useEffect(() => {
         console.log(props)
     }, [])
 
-    const {isDarkMode } = useDarkMode(getDefaultDarkMode())
+    const isDarkMode = getDefaultDarkMode()
 
 
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
@@ -103,12 +102,12 @@ export function SignedInMainView(props: {
 
     return <>
         <FilterBar defaultValueStartLocation={selectedDeparturePoint}
-                       onChangeStartLocation={setSelectedDeparturePoint}
-                       travelPointOptions={travelPointsOptions} prefersDark={isDarkMode}
-                       defaultValueEndLocation={selectedArrivalPoint}
-                       onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
-                       onDateTimeChange={setSelectedDateTime} onConfirmFilters={filterTrips}/>
-            <TripCollection filteredTripData={filteredTripData}/>
-        </>
+                   onChangeStartLocation={setSelectedDeparturePoint}
+                   travelPointOptions={travelPointsOptions} prefersDark={isDarkMode}
+                   defaultValueEndLocation={selectedArrivalPoint}
+                   onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
+                   onDateTimeChange={setSelectedDateTime} onConfirmFilters={filterTrips}/>
+        <TripCollection filteredTripData={filteredTripData}/>
+    </>
 
 }

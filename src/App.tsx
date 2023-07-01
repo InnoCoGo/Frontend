@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {useState} from 'react'
 import './App.css'
 import {telegramAuthInfo} from "./Types.ts";
@@ -6,10 +7,8 @@ import {MainView} from "./MainView.tsx";
 import {getDefaultDarkMode, getInitialTgAuthInfo} from "./TelegramUtils.ts";
 import CssBaseline from "@mui/material/CssBaseline";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import * as React from "react";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {useDarkMode} from "usehooks-ts";
 
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
     const [tgUser, setTgUser] = useState<telegramAuthInfo | null>(
         getInitialTgAuthInfo(initData)
     )
-    const {isDarkMode } = useDarkMode(getDefaultDarkMode())
+    const isDarkMode = getDefaultDarkMode()
     const theme = React.useMemo(
         () =>
             createTheme({
@@ -44,7 +43,7 @@ function App() {
                     <MainView authInfo={tgUser}/>
             }
         </LocalizationProvider>
-        </ThemeProvider>
+    </ThemeProvider>
 
 }
 

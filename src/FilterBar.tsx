@@ -1,6 +1,7 @@
 import {Dayjs} from "dayjs";
 import Select, {Theme} from "react-select";
 import {DateTimePicker} from "@mui/x-date-pickers";
+import {Button} from "@mui/material";
 
 function getThemeSelector(prefersDark: boolean) {
     return (theme: Theme) => ({
@@ -17,21 +18,25 @@ function getThemeSelector(prefersDark: boolean) {
     })
 }
 
+type selectOption = { value: string; label: string };
+
 export function FilterBar(props: {
-    defaultValueStartLocation: { value: string; label: string } | null,
-    onChangeStartLocation: (value: (((prevState: ({ value: string; label: string } | null)) => ({
-        value: string;
-        label: string
-    } | null)) | { value: string; label: string } | null)) => void,
-    travelPointOptions: ({ label: string; value: string })[],
     prefersDark: boolean,
+
+    travelPointOptions: selectOption[],
+
+    // start location
+    defaultValueStartLocation: selectOption | null,
+    onChangeStartLocation: (newValue: selectOption | null) => void,
+
+    // end location
     defaultValueEndLocation: { value: string; label: string } | null,
-    onChangeEndLocation: (value: (((prevState: ({ value: string; label: string } | null)) => ({
-        value: string;
-        label: string
-    } | null)) | { value: string; label: string } | null)) => void,
+    onChangeEndLocation: (newValue: selectOption | null) => void,
+
+    // time
     chosenDateTime: Dayjs | null,
     onDateTimeChange: (newValue: Dayjs | null) => void,
+
     onConfirmFilters: () => void
 }) {
     return <div className="flex-container">
@@ -62,6 +67,6 @@ export function FilterBar(props: {
                 onChange={props.onDateTimeChange}
             />
         </div>
-        <button onClick={props.onConfirmFilters}>Ok</button>
+        <Button onClick={props.onConfirmFilters}>Ok</Button>
     </div>;
 }
