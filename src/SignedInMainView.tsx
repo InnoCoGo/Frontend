@@ -82,7 +82,7 @@ function SignedInMainView(props: {
             //setCreates(null);
             setCreateMenuOpen(true);
         else {
-            fetch(`${SERVER_URL}/api/v1/trip?token=${props.token}`, {
+            fetch(`${SERVER_URL}/api/v1/trip/?token=${props.token}`, {
                     method: 'post',
                     headers: {
                         'Accept': 'application/json',
