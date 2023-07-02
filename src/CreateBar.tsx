@@ -59,7 +59,7 @@ function CreateBar(props: {
 
         <div style={{textAlign:'left'}}>
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
-            {"   " + props.intl.formatMessage({id: 'trip_description'})}
+            {"  " + props.intl.formatMessage({id: 'trip_description'})}
         </InputLabel>
         <div className="flex-container-horizontal">
             <TextField
