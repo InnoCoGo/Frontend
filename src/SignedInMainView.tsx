@@ -3,30 +3,20 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {FilterBar} from "./FilterBar.tsx";
-import {CreateBar} from "./CreateBar.tsx";
 import {serverAdjacentTripsRequest, TripCollection} from "./TripCollection.tsx";
-//import {serverCreateTripRequest, SubmitBar} from "./CreateBlock.tsx";
 import * as React from "react";
 import { useState} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import {SERVER_URL} from "./MainView.tsx";
 import {getDefaultDarkMode} from "./TelegramUtils.ts";
+import {injectIntl, IntlShape} from "react-intl";
 
-export function SignedInMainView(props: {
-    token: string
+function SignedInMainView(props: {
+    token: string,
+    intl: IntlShape
 }) {
 
     const prefersDarkMode = getDefaultDarkMode();
-
-    const theme = React.useMemo(
-        () =>
-            createTheme({
-                palette: {
-                    mode: prefersDarkMode ? 'dark' : 'light',
-                },
-            }),
-        [prefersDarkMode],
-    );
 
 
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
@@ -42,11 +32,15 @@ export function SignedInMainView(props: {
         useState<{ value: number; label: number; } | null>(null);
     const [selectedText, setSelectedText] =useState< string >("");
     const travelPointsOptions = [
-        {value: '0', label: 'Innopolis'},
-        {value: '1', label: 'Kazan'},
-        {value: '2', label: 'Verkhniy Uslon'}
+        {value: '0', label: props.intl.formatMessage({id: "innopolis"})},
+        {value: '1', label: props.intl.formatMessage({id: "kazan"})},
+        {value: '2', label: props.intl.formatMessage({id: "uslon"})}
     ];
     const numberToLabel = new Map(travelPointsOptions
+        .map(({label}, index) => [index, label]))
+
+
+    const [filters, setFilters] = useState<null | serverAdjacentTripsRequest>(null);
         .map(({ label}, index) => [index,label]))
     const driverPointsOptions = [
             {value: 'true', label: 'YES'},
@@ -73,11 +67,11 @@ export function SignedInMainView(props: {
             const filteringThresholdInHours = 24;
             setFilters(
                 {
-                    left_timestamp:selectedDateTime.add(-filteringThresholdInHours,'hour').toISOString(),
-                    right_timestamp: selectedDateTime.add(filteringThresholdInHours,'hour').toISOString(),
+                    left_timestamp: selectedDateTime.add(-filteringThresholdInHours, 'hour').toISOString(),
+                    right_timestamp: selectedDateTime.add(filteringThresholdInHours, 'hour').toISOString(),
                     from_point: parseInt(selectedDeparturePoint.value),
                     to_point: parseInt(selectedArrivalPoint.value),
-                    companion_type: "driver" // TODO: select in UI
+                    companion_type: "both" // TODO: select in UI
                 }
             )
         }
@@ -93,7 +87,7 @@ export function SignedInMainView(props: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-    
+
                     body: JSON.stringify({
                         is_driver : (selectedIsDriver.value == "true"),
                         places_max : selectedMaxPlace.value,
@@ -135,7 +129,7 @@ export function SignedInMainView(props: {
                        onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
                        onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}
                        onConfirmCreate={applyCreate}/>
-            {flag == false? false : 
+            {flag == false? false :
             <CreateBar defaultValueStartLocation={selectedDeparturePoint}
             onChangeStartLocation={setSelectedDeparturePoint}
             travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
@@ -143,7 +137,7 @@ export function SignedInMainView(props: {
             onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
             onDateTimeChange={setSelectedDateTime} defaultValueIsDriver={selectedIsDriver}
             onChangeIsDriver={setSelectedIsDriver} driverPointOptions={driverPointsOptions}
-            defaultValueMaxPlace={selectedMaxPlace} onChangeMaxPlace={setSelectedMaxPlace} 
+            defaultValueMaxPlace={selectedMaxPlace} onChangeMaxPlace={setSelectedMaxPlace}
             takenPointOptions={takenPointsOptions} defaultValueTakenPlace={selectedTakenPlace}
             onChangeTakenPlace={setSelectedTakenPlace}  onTextChange={setSelectedText}
             onConfirmSubmit={applySubmit} defaultValueText={selectedText}
@@ -156,6 +150,19 @@ export function SignedInMainView(props: {
             <TripCollection  token={props.token} pointToName={numberToLabel} filters={filters}/>}
         </LocalizationProvider>
     </ThemeProvider>
+
+    return <>
+        <FilterBar defaultValueStartLocation={selectedDeparturePoint}
+                   onChangeStartLocation={setSelectedDeparturePoint}
+                   travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
+                   defaultValueEndLocation={selectedArrivalPoint}
+                   onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
+                   onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}/>
+        {filters == null ? null :
+            <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
+    </>
         ;
 
 }
+
+export default injectIntl(SignedInMainView)
