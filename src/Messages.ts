@@ -20,7 +20,15 @@ export default {
         "uslon": "Verkhniy Uslon",
         'is_driver_placeholder':'Is driver?',
         'create_trip_ui':'+',
-        'apply_filters':'Ok'
+        'apply_filters':'Ok',
+        'is_driver':'Has own car?',
+        'has_car':'Own car',
+        'no_car':'No own car',
+        'idk_car':'No difference',
+        'max_places':'Max places',
+        'taken_places':'Places taken',
+        'create_ui_cancel':'Cancel',
+        'create_ui_confirm':'Create'
     },
     'ru': {
         'telegram_login': "Попытка соединения с сервером...",
@@ -43,6 +51,14 @@ export default {
         "uslon": "Верхний Услон",
         'is_driver_placeholder':'Водитель?',
         'create_trip_ui':'+',
-        'apply_filters':'Ок'
+        'apply_filters':'Ок',
+        'is_driver':'Своя машина?',
+        'has_car':'Своя машина',
+        'no_car':'Нет своей машины',
+        'idk_car':'Без разницы',
+        'max_places':'Мест всего',
+        'taken_places':'Мест занято',
+        'create_ui_cancel':'Отмена',
+        'create_ui_confirm':'Создать'
     }
 };

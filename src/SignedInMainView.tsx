@@ -17,16 +17,16 @@ function SignedInMainView(props: {
 
 
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
-        useState<string | null>(null);
+        useState<string>('0');
     const [selectedArrivalPoint, setSelectedArrivalPoint] =
-        useState<string | null>(null);
+        useState<string>('0');
     const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(dayjs());
     const [selectedIsDriver, setSelectedIsDriver] =
-        useState<string| null>(null);
+        useState<string>('0');
     const [selectedMaxPlace, setSelectedMaxPlace] =
-        useState<{ value: number; label: number; } | null>(null);
+        useState<string>('1');
     const [selectedTakenPlace, setSelectedTakenPlace] =
-        useState<{ value: number; label: number; } | null>(null);
+        useState<string>('1');
     const [selectedText, setSelectedText] =useState< string >("");
     const travelPointsOptions = [
         {value: '0', label: props.intl.formatMessage({id: "innopolis"})},
@@ -37,21 +37,19 @@ function SignedInMainView(props: {
         .map(({label}, index) => [index, label]))
 
     const driverPointsOptions = [
-            {value: '0', label: 'YES'},
-            {value: '1', label: 'NO'},
-            {value: '2', label: 'BOTH'}
+            {value: '0', label: props.intl.formatMessage({id:'idk_car'})},
+            {value: '1', label: props.intl.formatMessage({id:'has_car'})},
+            {value: '2', label: props.intl.formatMessage({id:'no_car'})},
     ];
-    const takenPointsOptions = [
-        {value: 1, label: 1},
-        {value: 2, label: 2},
-        {value: 3, label: 3},
-        {value: 4, label: 4},
-        {value: 5, label: 5},
-        {value: 6, label: 6},
-        {value: 7, label: 7},
+    const driverCreateOptions = [
+        {value: '0', label: props.intl.formatMessage({id:'has_car'})},
+        {value: '1', label: props.intl.formatMessage({id:'no_car'})},
     ];
+    const takenPointsOptions =
+        Array.from(new Array(7), (_, i) => i + 1)
+            .map(i => {return {value: i.toString(), label: '      ' + i.toString() + '      '}});
     const [filters, setFilters] = useState<null|serverAdjacentTripsRequest>(null);
-    const [flag, setFlag] = useState<boolean>(false);
+    const [createMenuOpen, setCreateMenuOpen] = useState<boolean>(false);
     //const [creates, setCreates] = useState<null|serverCreateTripRequest>(null);
 
     function applyFilters() {
@@ -66,15 +64,23 @@ function SignedInMainView(props: {
                     right_timestamp: selectedDateTime.add(filteringThresholdInHours, 'hour').toISOString(),
                     from_point: parseInt(selectedDeparturePoint),
                     to_point: parseInt(selectedArrivalPoint),
-                    companion_type: selectedIsDriver === '0'? 'driver' : (selectedIsDriver === '1'? 'passenger' : 'both')
+                    companion_type: selectedIsDriver === '1'? 'driver' : (selectedIsDriver === '2'? 'passenger' : 'both')
                 }
             )
         }
     }
+    function setEverythingToDefault(){
+        setFilters(null)
+        setSelectedDeparturePoint('0')
+        setSelectedArrivalPoint('0')
+        setSelectedDateTime(null)
+        setSelectedIsDriver('0')
+
+    }
     async function applySubmit() {
         if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null  || selectedMaxPlace == null  || selectedTakenPlace == null || selectedIsDriver == null )
             //setCreates(null);
-            setFlag(true);
+            setCreateMenuOpen(true);
         else {
             fetch(`${SERVER_URL}/api/v1/trip?token=${props.token}`, {
                     method: 'post',
@@ -85,15 +91,16 @@ function SignedInMainView(props: {
 
                     body: JSON.stringify({
                         is_driver : (selectedIsDriver == "0"),
-                        places_max : selectedMaxPlace.value,
-                        places_taken : selectedTakenPlace.value ,
+                        places_max : parseInt(selectedMaxPlace),
+                        places_taken : parseInt(selectedTakenPlace) ,
                         chosen_timestamp : selectedDateTime.toISOString(),
                         from_point: parseInt(selectedDeparturePoint),
                         to_point: parseInt(selectedArrivalPoint  ),
                         description : selectedText
                     })
                 });
-                setFlag(false);
+                setEverythingToDefault()
+                setCreateMenuOpen(false);
             // setCreates(
             //     {
             //         is_driver : (selectedIsDriver.value == "true"),
@@ -109,37 +116,39 @@ function SignedInMainView(props: {
     }
 
     function applyCreate() {
-        setFlag(true);
+        setCreateMenuOpen(true);
     }
     function applyExit() {
-        setFlag(false);
+        setCreateMenuOpen(false);
+        setEverythingToDefault()
     }
     return <>
-            <FilterBar defaultValueStartLocation={selectedDeparturePoint}
-                       onChangeStartLocation={setSelectedDeparturePoint}
-                       travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
-                       defaultValueEndLocation={selectedArrivalPoint}
-                       onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
-                       onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}
-                       onConfirmCreate={applyCreate} defaultValueIsDriver={selectedIsDriver} onChangeIsDriver={setSelectedIsDriver} driverPointOptions={driverPointsOptions}/>
-            {/*{flag == false? false :*/}
-            {/*// <CreateBar defaultValueStartLocation={selectedDeparturePoint}*/}
-            {/*// onChangeStartLocation={setSelectedDeparturePoint}*/}
-            {/*// travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}*/}
-            {/*// defaultValueEndLocation={selectedArrivalPoint}*/}
-            {/*// onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}*/}
-            {/*// onDateTimeChange={setSelectedDateTime} defaultValueIsDriver={selectedIsDriver}*/}
-            {/*// onChangeIsDriver={setSelectedIsDriver} driverPointOptions={driverPointsOptions}*/}
-            {/*// defaultValueMaxPlace={selectedMaxPlace} onChangeMaxPlace={setSelectedMaxPlace}*/}
-            {/*// takenPointOptions={takenPointsOptions} defaultValueTakenPlace={selectedTakenPlace}*/}
-            {/*// onChangeTakenPlace={setSelectedTakenPlace}  onTextChange={setSelectedText}*/}
-            {/*// onConfirmSubmit={applySubmit} defaultValueText={selectedText}*/}
-            {/*// onConfirmExit={applyExit}/>*/}
-            {/*}*/}
+        {createMenuOpen? false :<FilterBar defaultValueStartLocation={selectedDeparturePoint}
+                                      onChangeStartLocation={setSelectedDeparturePoint}
+                                      travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
+                                      defaultValueEndLocation={selectedArrivalPoint}
+                                      onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
+                                      onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}
+                                      onConfirmCreate={applyCreate} defaultValueIsDriver={selectedIsDriver} onChangeIsDriver={setSelectedIsDriver} driverPointOptions={driverPointsOptions}/>
+        }
+        {!createMenuOpen? false :
+            <CreateBar defaultValueStartLocation={selectedDeparturePoint}
+            onChangeStartLocation={setSelectedDeparturePoint}
+            travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
+            defaultValueEndLocation={selectedArrivalPoint}
+            onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
+            onDateTimeChange={setSelectedDateTime} defaultValueIsDriver={selectedIsDriver}
+            onChangeIsDriver={setSelectedIsDriver} driverPointOptions={driverCreateOptions}
+            defaultValueMaxPlace={selectedMaxPlace} onChangeMaxPlace={setSelectedMaxPlace}
+            takenPointOptions={takenPointsOptions} defaultValueTakenPlace={selectedTakenPlace}
+            onChangeTakenPlace={setSelectedTakenPlace}  onTextChange={setSelectedText}
+            onConfirmSubmit={applySubmit} defaultValueText={selectedText}
+            onConfirmExit={applyExit}/>
+            }
             {/* {creates == null? null:
             <SubmitBar token={props.token} creates={creates}></SubmitBar>
             } */}
-            {filters == null? null :
+            {filters == null || createMenuOpen? null :
             <TripCollection  token={props.token} pointToName={numberToLabel} filters={filters}/>}
     </>;
 

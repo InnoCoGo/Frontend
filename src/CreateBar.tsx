@@ -1,26 +1,9 @@
 import {Dayjs} from "dayjs";
-import Select, {Theme} from "react-select";
-import { MobileDateTimePicker} from "@mui/x-date-pickers";
-import {Button, TextField} from "@mui/material";
+import {Button, InputLabel, TextField} from "@mui/material";
 import {injectIntl, IntlShape} from "react-intl";
-
-function getThemeSelector(prefersDark: boolean) {
-    return (theme: Theme) => ({
-        ...theme,
-        colors: {
-            primary25: prefersDark ? 'gray' : '#C1C1C1',
-            primary: prefersDark ? '#C1C1C1' : 'gray',
-            neutral0: (prefersDark ? 'black' : 'white'),
-            primary75: '', primary50: '', danger: '',
-            dangerLight: '', neutral5: '', neutral10: '', neutral20: '',
-            neutral30: '', neutral40: '', neutral50: '', neutral60: '',
-            neutral70: '', neutral80: '', neutral90: ''
-        },
-    })
-}
+import {CustomizedDateTimeSelector, Selector} from "./FilterBar.tsx";
 
 type selectOption = { value: string; label: string };
-type selectPlacesOption = { value: number ; label: number}
 
 function CreateBar(props: {
     intl: IntlShape,
@@ -28,31 +11,31 @@ function CreateBar(props: {
 
     travelPointOptions: selectOption[],
     driverPointOptions: selectOption[],
-    takenPointOptions: selectPlacesOption[],
+    takenPointOptions: selectOption[],
 
     // start location
-    defaultValueStartLocation: selectOption | null,
-    onChangeStartLocation: (newValue: selectOption | null) => void,
+    defaultValueStartLocation: string,
+    onChangeStartLocation: (newValue: string) => void,
 
     // end location
-    defaultValueEndLocation: { value: string; label: string } | null,
-    onChangeEndLocation: (newValue: selectOption | null) => void,
+    defaultValueEndLocation: string ,
+    onChangeEndLocation: (newValue: string) => void,
 
     // time
     chosenDateTime: Dayjs | null,
     onDateTimeChange: (newValue: Dayjs | null) => void,
 
     //is driver
-    defaultValueIsDriver: selectOption | null,
-    onChangeIsDriver: (newValue: selectOption| null) => void,
+    defaultValueIsDriver: string,
+    onChangeIsDriver: (newValue: string) => void,
 
     //max place
-    defaultValueMaxPlace: { value: number ; label: number } | null,
-    onChangeMaxPlace: (newValue: selectPlacesOption | null) => void,
+    defaultValueMaxPlace: string,
+    onChangeMaxPlace: (newValue: string) => void,
     
     //taken place
-    defaultValueTakenPlace: { value: number ; label: number } | null,
-    onChangeTakenPlace: (newValue: selectPlacesOption | null) => void,
+    defaultValueTakenPlace: string,
+    onChangeTakenPlace: (newValue: string) => void,
 
     //description
     defaultValueText: string,
@@ -62,70 +45,22 @@ function CreateBar(props: {
     onConfirmExit: () => void
 }) {
     return <div className="flex-container">
+
+        <Selector intl={props.intl} onChange={(event) => props.onChangeStartLocation(event.target.value)}
+                  selectOptions={props.travelPointOptions}  labelId={"trip_from"} inputName={"from-create"}/>
+        <Selector intl={props.intl} onChange={(event) => props.onChangeEndLocation(event.target.value)}
+                  selectOptions={props.travelPointOptions}  labelId={"trip_to"} inputName={"to-create"}/>
+        <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
+                  selectOptions={props.driverPointOptions}  labelId={"is_driver"} inputName={"is-driver-create"}/>
+        <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
+                  selectOptions={props.takenPointOptions}  labelId={"max_places"} inputName={"max-places-create"}/>
+        <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
+                  selectOptions={props.takenPointOptions}  labelId={"taken_places"} inputName={"taken-places-create"}/>
+
+        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+            {props.intl.formatMessage({id: 'trip_description'})}
+        </InputLabel>
         <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "from"})}:
-            <Select
-                defaultValue={props.defaultValueStartLocation}
-                onChange={props.onChangeStartLocation}
-                options={props.travelPointOptions}
-                placeholder={props.intl.formatMessage({id: "start_point"})}
-                theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
-            />
-        </div>
-        <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "to"})}:
-            <Select
-                defaultValue={props.defaultValueEndLocation}
-                onChange={props.onChangeEndLocation}
-                options={props.travelPointOptions}
-                placeholder={props.intl.formatMessage({id: "end_point"})}
-                theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
-            />
-        </div>
-        <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "at"})}:
-            <MobileDateTimePicker
-                value={props.chosenDateTime}
-                onChange={props.onDateTimeChange}
-            />
-        </div>
-        <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "is_driver"})}
-            <Select
-                defaultValue={props.defaultValueIsDriver}
-                onChange={props.onChangeIsDriver}
-                options={props.driverPointOptions}
-                placeholder={props.intl.formatMessage({id: "is_driver_placeholder"})}
-                theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
-            />
-        </div>
-        <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "max_places"})}:
-            <Select
-                defaultValue={props.defaultValueMaxPlace}
-                onChange={props.onChangeMaxPlace}
-                options={props.takenPointOptions}
-                placeholder={props.intl.formatMessage({id: "max_place_placeholder"})}
-                theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
-            />
-        </div>
-        <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "places_taken"})}:
-            <Select
-                defaultValue={props.defaultValueTakenPlace}
-                onChange={props.onChangeTakenPlace}
-                options={props.takenPointOptions}
-                placeholder={props.intl.formatMessage({id: "places_taken_placeholder"})}
-                theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
-            />
-        </div>
-        <div className="flex-container-horizontal">
-            {props.intl.formatMessage({id: "description"})}:
             <TextField
             type="text" 
             variant="outlined"
@@ -133,6 +68,7 @@ function CreateBar(props: {
             onChange={(event) => props.onTextChange(event.target.value)}
             />
         </div>
+        <CustomizedDateTimeSelector intl={props.intl} labelId={"at"} chosenDateTime={props.chosenDateTime} onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
         <Button variant="contained" onClick={props.onConfirmExit}>{props.intl.formatMessage({id: "create_ui_cancel"})}</Button>
         <Button variant="contained" onClick={props.onConfirmSubmit}>{props.intl.formatMessage({id: "create_ui_confirm"})}</Button>
