@@ -57,7 +57,7 @@ export function CustomizedDateTimeSelector(props: {
     return  <div style={{textAlign:'left'}}>
 
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
-            {props.intl.formatMessage({id: props.labelId})}
+            {"   " + props.intl.formatMessage({id: props.labelId})}
         </InputLabel>
     <div className="flex-container-horizontal"><FormControl fullWidth>
 
