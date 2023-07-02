@@ -1,6 +1,6 @@
 import {Dayjs} from "dayjs";
 import Select, {Theme} from "react-select";
-import {DateTimePicker} from "@mui/x-date-pickers";
+import {MobileDateTimePicker} from "@mui/x-date-pickers";
 import {Button} from "@mui/material";
 import {injectIntl, IntlShape} from "react-intl";
 
@@ -66,7 +66,7 @@ function FilterBar(props: {
         </div>
         <div className="flex-container-horizontal">
             {props.intl.formatMessage({id: "at"})}:
-            <DateTimePicker
+            <MobileDateTimePicker
                 value={props.chosenDateTime}
                 onChange={props.onDateTimeChange}
             />
