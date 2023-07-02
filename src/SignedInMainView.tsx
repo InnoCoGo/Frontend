@@ -1,29 +1,16 @@
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {FilterBar} from "./FilterBar.tsx";
-import {serverAdjacentTripsRequest, TripCollection} from "./TripCollection.tsx";
-import * as React from "react";
-import { useState} from "react";
+import FilterBar from "./FilterBar.tsx";
+import TripCollection, {serverAdjacentTripsRequest} from "./TripCollection.tsx";
+import {useState} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import {getDefaultDarkMode} from "./TelegramUtils.ts";
+import {injectIntl, IntlShape} from "react-intl";
 
-export function SignedInMainView(props: {
-    token: string
+function SignedInMainView(props: {
+    token: string,
+    intl: IntlShape
 }) {
 
     const prefersDarkMode = getDefaultDarkMode();
-
-    const theme = React.useMemo(
-        () =>
-            createTheme({
-                palette: {
-                    mode: prefersDarkMode ? 'dark' : 'light',
-                },
-            }),
-        [prefersDarkMode],
-    );
 
 
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
@@ -34,15 +21,15 @@ export function SignedInMainView(props: {
 
 
     const travelPointsOptions = [
-        {value: '0', label: 'Innopolis'},
-        {value: '1', label: 'Kazan'},
-        {value: '2', label: 'Verkhniy Uslon'}
+        {value: '0', label: props.intl.formatMessage({id: "innopolis"})},
+        {value: '1', label: props.intl.formatMessage({id: "kazan"})},
+        {value: '2', label: props.intl.formatMessage({id: "uslon"})}
     ];
     const numberToLabel = new Map(travelPointsOptions
-        .map(({ label}, index) => [index,label]))
+        .map(({label}, index) => [index, label]))
 
 
-    const [filters, setFilters] = useState<null|serverAdjacentTripsRequest>(null);
+    const [filters, setFilters] = useState<null | serverAdjacentTripsRequest>(null);
 
     function applyFilters() {
         if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null)
@@ -52,8 +39,8 @@ export function SignedInMainView(props: {
             const filteringThresholdInHours = 24;
             setFilters(
                 {
-                    left_timestamp:selectedDateTime.add(-filteringThresholdInHours,'hour').toISOString(),
-                    right_timestamp: selectedDateTime.add(filteringThresholdInHours,'hour').toISOString(),
+                    left_timestamp: selectedDateTime.add(-filteringThresholdInHours, 'hour').toISOString(),
+                    right_timestamp: selectedDateTime.add(filteringThresholdInHours, 'hour').toISOString(),
                     from_point: parseInt(selectedDeparturePoint.value),
                     to_point: parseInt(selectedArrivalPoint.value),
                     companion_type: "both" // TODO: select in UI
@@ -62,19 +49,18 @@ export function SignedInMainView(props: {
         }
     }
 
-    return <ThemeProvider theme={theme}>
-        <CssBaseline/>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <FilterBar defaultValueStartLocation={selectedDeparturePoint}
-                       onChangeStartLocation={setSelectedDeparturePoint}
-                       travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
-                       defaultValueEndLocation={selectedArrivalPoint}
-                       onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
-                       onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}/>
-            {filters == null? null :
-            <TripCollection  token={props.token} pointToName={numberToLabel} filters={filters}/>}
-        </LocalizationProvider>
-    </ThemeProvider>
+    return <>
+        <FilterBar defaultValueStartLocation={selectedDeparturePoint}
+                   onChangeStartLocation={setSelectedDeparturePoint}
+                   travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
+                   defaultValueEndLocation={selectedArrivalPoint}
+                   onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
+                   onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}/>
+        {filters == null ? null :
+            <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
+    </>
         ;
 
 }
+
+export default injectIntl(SignedInMainView)

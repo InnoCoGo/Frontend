@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import {useEffect, useState} from 'react'
 
 // Based on https://medium.com/swlh/usefetch-a-custom-react-hook-36d5f5819d8
-function useFetch<T>(initialUrl:string, params:string, method:string, skip = false) {
+function useFetch<T>(initialUrl: string, params: string, method: string, skip = false) {
     const [url, updateUrl] = useState(initialUrl)
-    const [data, setData] = useState<T|null>(null)
+    const [data, setData] = useState<T | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -44,7 +44,7 @@ function useFetch<T>(initialUrl:string, params:string, method:string, skip = fal
         }
         fetchData()
     }, [url, params, refetchIndex])
-    return { data, isLoading, hasError, errorMessage, updateUrl, refetch }
+    return {data, isLoading, hasError, errorMessage, updateUrl, refetch}
 }
 
 export default useFetch

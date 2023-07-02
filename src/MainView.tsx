@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {telegramAuthInfo} from "./Types.ts";
-import {SignedInMainView} from "./SignedInMainView.tsx";
+import SignedInMainView from "./SignedInMainView.tsx";
+import {injectIntl, IntlShape} from "react-intl";
 
 dayjs.extend(customParseFormat);
 
@@ -35,14 +36,19 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
     console.log(data)
 }
 
-export function MainView({authInfo}: { authInfo: telegramAuthInfo }) {
+function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo }) {
+    console.log(typeof (props.intl))
 
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        tryRetrieveToken(setToken, authInfo);
+        tryRetrieveToken(setToken, props.authInfo);
     }, []);
 
-    return token === null ? "trying to log in..." :
+    return token === null ? props.intl.formatMessage({
+            id: "telegram_login"
+        }) :
         <SignedInMainView token={token}/>
 }
+
+export default injectIntl(MainView)

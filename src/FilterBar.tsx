@@ -2,6 +2,7 @@ import {Dayjs} from "dayjs";
 import Select, {Theme} from "react-select";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import {Button} from "@mui/material";
+import {injectIntl, IntlShape} from "react-intl";
 
 function getThemeSelector(prefersDark: boolean) {
     return (theme: Theme) => ({
@@ -20,7 +21,8 @@ function getThemeSelector(prefersDark: boolean) {
 
 type selectOption = { value: string; label: string };
 
-export function FilterBar(props: {
+function FilterBar(props: {
+    intl: IntlShape,
     prefersDark: boolean,
 
     travelPointOptions: selectOption[],
@@ -41,34 +43,36 @@ export function FilterBar(props: {
 }) {
     return <div className="flex-container">
         <div className="flex-container-horizontal">
-            From:
+            {props.intl.formatMessage({id: "from"})}:
             <Select
                 defaultValue={props.defaultValueStartLocation}
                 onChange={props.onChangeStartLocation}
                 options={props.travelPointOptions}
-                placeholder={"Start point"}
+                placeholder={props.intl.formatMessage({id: "start_point"})}
                 theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
+                isSearchable={false}
             />
         </div>
         <div className="flex-container-horizontal">
-            To:
+            {props.intl.formatMessage({id: "to"})}:
             <Select
                 defaultValue={props.defaultValueEndLocation}
                 onChange={props.onChangeEndLocation}
                 options={props.travelPointOptions}
-                placeholder={"End point"}
+                placeholder={props.intl.formatMessage({id: "end_point"})}
                 theme={getThemeSelector(props.prefersDark)}
-                isSearchable={ false }
+                isSearchable={false}
             />
         </div>
         <div className="flex-container-horizontal">
-            At:
+            {props.intl.formatMessage({id: "at"})}:
             <DateTimePicker
                 value={props.chosenDateTime}
                 onChange={props.onDateTimeChange}
             />
         </div>
-        <Button variant="contained" onClick={props.onConfirmFilters}>Ok</Button>
+        <Button variant="contained" disableElevation onClick={props.onConfirmFilters}>Ok</Button>
     </div>;
 }
+
+export default injectIntl(FilterBar);
