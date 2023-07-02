@@ -14,7 +14,7 @@ function useFetch<T>(initialUrl: string, params: string, method: string, skip = 
             if (skip) return
             setIsLoading(true)
             try {
-
+                console.log(params)
                 const response = await fetch(`${url}`, {
                     method: method,
                     headers: {
