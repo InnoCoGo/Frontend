@@ -54,7 +54,7 @@ export function CustomizedDateTimeSelector(props: {
     chosenDateTime: Dayjs | null,
     onDateTimeChange: (newValue: Dayjs | null) => void,
 }) {
-    return  <>
+    return  <div style={{textAlign:'left'}}>
 
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
             {props.intl.formatMessage({id: props.labelId})}
@@ -65,7 +65,7 @@ export function CustomizedDateTimeSelector(props: {
             value={props.chosenDateTime}
             onChange={props.onDateTimeChange}
         />
-    </FormControl> </div></>;
+    </FormControl> </div></div>;
 }
 
 function FilterBar(props: {

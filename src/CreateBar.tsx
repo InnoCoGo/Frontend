@@ -57,6 +57,7 @@ function CreateBar(props: {
         <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
                   selectOptions={props.takenPointOptions}  labelId={"taken_places"} inputName={"taken-places-create"}/>
 
+        <div style={{textAlign:'left'}}>
         <InputLabel variant="standard" htmlFor="uncontrolled-native">
             {props.intl.formatMessage({id: 'trip_description'})}
         </InputLabel>
@@ -67,6 +68,7 @@ function CreateBar(props: {
             value={props.defaultValueText}
             onChange={(event) => props.onTextChange(event.target.value)}
             />
+        </div>
         </div>
         <CustomizedDateTimeSelector intl={props.intl} labelId={"at"} chosenDateTime={props.chosenDateTime} onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
