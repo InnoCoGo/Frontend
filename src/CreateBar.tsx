@@ -1,7 +1,8 @@
 import {Dayjs} from "dayjs";
 import Select, {Theme} from "react-select";
-import {DateTimePicker} from "@mui/x-date-pickers";
+import { MobileDateTimePicker} from "@mui/x-date-pickers";
 import {Button, TextField} from "@mui/material";
+import {injectIntl, IntlShape} from "react-intl";
 
 function getThemeSelector(prefersDark: boolean) {
     return (theme: Theme) => ({
@@ -21,7 +22,8 @@ function getThemeSelector(prefersDark: boolean) {
 type selectOption = { value: string; label: string };
 type selectPlacesOption = { value: number ; label: number}
 
-export function CreateBar(props: {
+function CreateBar(props: {
+    intl: IntlShape,
     prefersDark: boolean,
 
     travelPointOptions: selectOption[],
@@ -61,69 +63,69 @@ export function CreateBar(props: {
 }) {
     return <div className="flex-container">
         <div className="flex-container-horizontal">
-            From:
+            {props.intl.formatMessage({id: "from"})}:
             <Select
                 defaultValue={props.defaultValueStartLocation}
                 onChange={props.onChangeStartLocation}
                 options={props.travelPointOptions}
-                placeholder={"Start point"}
+                placeholder={props.intl.formatMessage({id: "start_point"})}
                 theme={getThemeSelector(props.prefersDark)}
                 isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">
-            To:
+            {props.intl.formatMessage({id: "to"})}:
             <Select
                 defaultValue={props.defaultValueEndLocation}
                 onChange={props.onChangeEndLocation}
                 options={props.travelPointOptions}
-                placeholder={"End point"}
+                placeholder={props.intl.formatMessage({id: "end_point"})}
                 theme={getThemeSelector(props.prefersDark)}
                 isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">
-            At:
-            <DateTimePicker
+            {props.intl.formatMessage({id: "at"})}:
+            <MobileDateTimePicker
                 value={props.chosenDateTime}
                 onChange={props.onDateTimeChange}
             />
         </div>
         <div className="flex-container-horizontal">
-            Is Driver?
+            {props.intl.formatMessage({id: "is_driver"})}
             <Select
                 defaultValue={props.defaultValueIsDriver}
                 onChange={props.onChangeIsDriver}
                 options={props.driverPointOptions}
-                placeholder={"Is driver?"}
+                placeholder={props.intl.formatMessage({id: "is_driver_placeholder"})}
                 theme={getThemeSelector(props.prefersDark)}
                 isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">
-            Max Places:
+            {props.intl.formatMessage({id: "max_places"})}:
             <Select
                 defaultValue={props.defaultValueMaxPlace}
                 onChange={props.onChangeMaxPlace}
                 options={props.takenPointOptions}
-                placeholder={"Max places"}
+                placeholder={props.intl.formatMessage({id: "max_place_placeholder"})}
                 theme={getThemeSelector(props.prefersDark)}
                 isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">
-            Places already taken:
+            {props.intl.formatMessage({id: "places_taken"})}:
             <Select
                 defaultValue={props.defaultValueTakenPlace}
                 onChange={props.onChangeTakenPlace}
                 options={props.takenPointOptions}
-                placeholder={"Taken places"}
+                placeholder={props.intl.formatMessage({id: "places_taken_placeholder"})}
                 theme={getThemeSelector(props.prefersDark)}
                 isSearchable={ false }
             />
         </div>
         <div className="flex-container-horizontal">
-            Description:
+            {props.intl.formatMessage({id: "description"})}:
             <TextField
             type="text" 
             variant="outlined"
@@ -132,8 +134,9 @@ export function CreateBar(props: {
             />
         </div>
         <div className="flex-container-horizontal">
-        <Button variant="contained" onClick={props.onConfirmExit}>Cancel</Button>
-        <Button variant="contained" onClick={props.onConfirmSubmit}>Submit</Button>
+        <Button variant="contained" onClick={props.onConfirmExit}>{props.intl.formatMessage({id: "create_ui_cancel"})}</Button>
+        <Button variant="contained" onClick={props.onConfirmSubmit}>{props.intl.formatMessage({id: "create_ui_confirm"})}</Button>
         </div>
     </div>;
 }
+export default injectIntl(CreateBar);

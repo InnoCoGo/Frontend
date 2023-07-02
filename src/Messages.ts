@@ -17,7 +17,10 @@ export default {
         "trip_description": "Description",
         "innopolis": "Innopolis",
         "kazan": "Kazan",
-        "uslon": "Verkhniy Uslon"
+        "uslon": "Verkhniy Uslon",
+        'is_driver_placeholder':'Is driver?',
+        'create_trip_ui':'+',
+        'apply_filters':'Ok'
     },
     'ru': {
         'telegram_login': "Попытка соединения с сервером...",
@@ -37,6 +40,9 @@ export default {
         "trip_description": "Описание",
         "innopolis": "Иннополис",
         "kazan": "Казань",
-        "uslon": "Верхний Услон"
+        "uslon": "Верхний Услон",
+        'is_driver_placeholder':'Водитель?',
+        'create_trip_ui':'+',
+        'apply_filters':'Ок'
     }
 };
