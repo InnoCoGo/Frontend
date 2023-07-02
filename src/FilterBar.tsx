@@ -19,7 +19,6 @@ function getThemeSelector(prefersDark: boolean) {
 }
 
 type selectOption = { value: string; label: string };
-
 export function FilterBar(props: {
     prefersDark: boolean,
 
@@ -37,7 +36,8 @@ export function FilterBar(props: {
     chosenDateTime: Dayjs | null,
     onDateTimeChange: (newValue: Dayjs | null) => void,
 
-    onConfirmFilters: () => void
+    onConfirmFilters: () => void,
+    onConfirmCreate: () => void
 }) {
     return <div className="flex-container">
         <div className="flex-container-horizontal">
@@ -69,6 +69,9 @@ export function FilterBar(props: {
                 onChange={props.onDateTimeChange}
             />
         </div>
+        <div className="flex-container-horizontal">
         <Button variant="contained" onClick={props.onConfirmFilters}>Ok</Button>
+        <Button variant="contained" onClick={props.onConfirmCreate}>Create Trip</Button>
+        </div>
     </div>;
 }
