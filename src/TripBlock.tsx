@@ -21,7 +21,7 @@ function TripBlock({departure, arrival, date, passengers, username, extraNote, i
             <Typography variant="h6">{intl.formatMessage({id: "trip_from"})}: {departure}</Typography>
             <Typography variant="h6">{intl.formatMessage({id: "trip_to"})}: {arrival}</Typography>
             <Typography
-                variant="h6">{intl.formatMessage({id: "trip_datetime"})}: {dayjs(date, "YYYY-MM-DD HH:mm").format("YYYY-MM-DD HH:mm")}</Typography>
+                variant="h6">{intl.formatMessage({id: "trip_datetime"})}: {dayjs(date).format("YYYY-MM-DD HH:mm")}</Typography>
             <Typography variant="h6">{intl.formatMessage({id: "trip_free_seats"})}: {passengers}</Typography>
             <Typography variant="h6">{intl.formatMessage({id: "trip_admin_username"})}: {username}</Typography>
             {extraNote && (
