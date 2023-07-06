@@ -6,10 +6,10 @@ import {SERVER_URL} from "./MainView.tsx";
 import {getDefaultDarkMode} from "./TelegramUtils.ts";
 import {injectIntl, IntlShape} from "react-intl";
 import CreateBar from "./CreateBar.tsx";
-import { BottomNavigation, BottomNavigationAction } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import PersonIcon from "@mui/icons-material/Person";
+// import { BottomNavigation, BottomNavigationAction } from "@mui/material";
+// import HomeIcon from "@mui/icons-material/Home";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
+// import PersonIcon from "@mui/icons-material/Person";
 function SignedInMainView(props: {
     token: string,
     intl: IntlShape
@@ -162,14 +162,14 @@ function SignedInMainView(props: {
             } */}
         {filters == null || createMenuOpen ? null :
             <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
-            {<BottomNavigation 
+            {/* {<BottomNavigation 
             sx={{width : '100%' , position: "absolute" , bottom:0}}
             onChange={() =>{
             }}>
                 <BottomNavigationAction label = 'Home' icon = {<HomeIcon />} />
                 <BottomNavigationAction label = 'Favorite' icon = {<FavoriteIcon />} />
                 <BottomNavigationAction label = 'Profile' icon = {<PersonIcon />} />
-                </BottomNavigation>}
+                </BottomNavigation>} */}
     </>;
 
 }
