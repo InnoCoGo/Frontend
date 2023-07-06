@@ -17,7 +17,7 @@ function SignedInMainView(props: {
 
     const prefersDarkMode = getDefaultDarkMode();
 
-    const [value,setValue] = useState(0)
+    //const [value,setValue] = useState(0)
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
         useState<string>('0');
     const [selectedArrivalPoint, setSelectedArrivalPoint] =
@@ -164,9 +164,7 @@ function SignedInMainView(props: {
             <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
             {<BottomNavigation 
             sx={{width : '100%' , position: "absolute" , bottom:0}}
-            value={value}
-            onChange={(event,newValue) =>{
-                setValue(newValue)
+            onChange={() =>{
             }}>
                 <BottomNavigationAction label = 'Home' icon = {<HomeIcon />} />
                 <BottomNavigationAction label = 'Favorite' icon = {<FavoriteIcon />} />
