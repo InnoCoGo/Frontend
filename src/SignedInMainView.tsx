@@ -17,12 +17,11 @@ function SignedInMainView(props: {
 
     const prefersDarkMode = getDefaultDarkMode();
 
-    //const [value,setValue] = useState(0)
     const [selectedDeparturePoint, setSelectedDeparturePoint] =
         useState<string>('0');
     const [selectedArrivalPoint, setSelectedArrivalPoint] =
         useState<string>('0');
-    const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(dayjs());
+    const [selectedDateTime, setSelectedDateTime] = useState<Dayjs>(dayjs());
     const [selectedIsDriver, setSelectedIsDriver] =
         useState<string>('0');
     const [selectedMaxPlace, setSelectedMaxPlace] =
@@ -38,11 +37,15 @@ function SignedInMainView(props: {
     const numberToLabel = new Map(travelPointsOptions
         .map(({label}, index) => [index, label]))
 
+    const DRIVER_OPTION = '0', PASSENGER_OPTION = '1', EITHER_OPTION = '2';
     const driverPointsOptions = [
-        {value: '0', label: props.intl.formatMessage({id: 'idk_car'})},
-        {value: '1', label: props.intl.formatMessage({id: 'has_car'})},
-        {value: '2', label: props.intl.formatMessage({id: 'no_car'})},
+        {value: DRIVER_OPTION, label: props.intl.formatMessage({id: 'idk_car'})},
+        {value: PASSENGER_OPTION, label: props.intl.formatMessage({id: 'has_car'})},
+        {value: EITHER_OPTION, label: props.intl.formatMessage({id: 'no_car'})},
     ];
+
+
+
     const driverCreateOptions = [
         {value: '0', label: props.intl.formatMessage({id: 'has_car'})},
         {value: '1', label: props.intl.formatMessage({id: 'no_car'})},
@@ -69,19 +72,10 @@ function SignedInMainView(props: {
                     right_timestamp: selectedDateTime.add(filteringThresholdInHours, 'hour').toISOString(),
                     from_point: parseInt(selectedDeparturePoint),
                     to_point: parseInt(selectedArrivalPoint),
-                    companion_type: selectedIsDriver === '1' ? 'driver' : (selectedIsDriver === '2' ? 'passenger' : 'both')
+                    companion_type: selectedIsDriver === DRIVER_OPTION ? 'driver' : (selectedIsDriver === PASSENGER_OPTION ? 'passenger' : 'both')
                 }
             )
         }
-    }
-
-    function setEverythingToDefault() {
-        setFilters(null)
-        setSelectedDeparturePoint('0')
-        setSelectedArrivalPoint('0')
-        setSelectedDateTime(null)
-        setSelectedIsDriver('0')
-
     }
 
     async function applySubmit() {
@@ -97,7 +91,7 @@ function SignedInMainView(props: {
                 },
 
                 body: JSON.stringify({
-                    is_driver: (selectedIsDriver == "0"),
+                    is_driver: (selectedIsDriver == DRIVER_OPTION),
                     places_max: parseInt(selectedMaxPlace),
                     places_taken: parseInt(selectedTakenPlace),
                     chosen_timestamp: selectedDateTime.toISOString(),
@@ -106,8 +100,10 @@ function SignedInMainView(props: {
                     description: selectedText
                 })
             });
-            setEverythingToDefault()
+            // Clear description after successful trip creation
+            setSelectedText("")
             setCreateMenuOpen(false);
+
             // setCreates(
             //     {
             //         is_driver : (selectedIsDriver.value == "true"),
@@ -128,7 +124,6 @@ function SignedInMainView(props: {
 
     function applyExit() {
         setCreateMenuOpen(false);
-        setEverythingToDefault()
     }
 
     return <>

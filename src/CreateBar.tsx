@@ -22,8 +22,8 @@ function CreateBar(props: {
     onChangeEndLocation: (newValue: string) => void,
 
     // time
-    chosenDateTime: Dayjs | null,
-    onDateTimeChange: (newValue: Dayjs | null) => void,
+    chosenDateTime: Dayjs,
+    onDateTimeChange: (newValue: Dayjs) => void,
 
     //is driver
     defaultValueIsDriver: string,
@@ -47,15 +47,15 @@ function CreateBar(props: {
     return <div className="flex-container">
 
         <Selector intl={props.intl} onChange={(event) => props.onChangeStartLocation(event.target.value)}
-                  selectOptions={props.travelPointOptions} labelId={"trip_from"} inputName={"from-create"}/>
+                  defaultValue={props.defaultValueStartLocation} selectOptions={props.travelPointOptions} labelId={"trip_from"} inputName={"from-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeEndLocation(event.target.value)}
-                  selectOptions={props.travelPointOptions} labelId={"trip_to"} inputName={"to-create"}/>
+                  defaultValue={props.defaultValueEndLocation} selectOptions={props.travelPointOptions} labelId={"trip_to"} inputName={"to-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
-                  selectOptions={props.driverPointOptions} labelId={"is_driver"} inputName={"is-driver-create"}/>
-        <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
-                  selectOptions={props.takenPointOptions} labelId={"max_places"} inputName={"max-places-create"}/>
-        <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
-                  selectOptions={props.takenPointOptions} labelId={"taken_places"} inputName={"taken-places-create"}/>
+                  defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions} labelId={"is_driver"} inputName={"is-driver-create"}/>
+        <Selector intl={props.intl} onChange={(event) => props.onChangeMaxPlace(event.target.value)}
+                  defaultValue={props.defaultValueMaxPlace} selectOptions={props.takenPointOptions} labelId={"max_places"} inputName={"max-places-create"}/>
+        <Selector intl={props.intl} onChange={(event) => props.onChangeTakenPlace(event.target.value)}
+                  defaultValue={props.defaultValueTakenPlace} selectOptions={props.takenPointOptions} labelId={"taken_places"} inputName={"taken-places-create"}/>
 
         <div style={{textAlign: 'left'}}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">

@@ -1,4 +1,4 @@
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import {Button, FormControl, InputLabel, NativeSelect} from "@mui/material";
 import {injectIntl, IntlShape} from "react-intl";
 import {MobileDateTimePicker} from "@mui/x-date-pickers";
@@ -6,6 +6,7 @@ import {MobileDateTimePicker} from "@mui/x-date-pickers";
 type selectOption = { value: string; label: string };
 
 export function Selector(props: {
+    defaultValue: string,
     intl: IntlShape,
     inputName: string,
     labelId: string,
@@ -18,7 +19,7 @@ export function Selector(props: {
         </InputLabel>
         <div className="flex-container-horizontal"><FormControl fullWidth>
             <NativeSelect
-                defaultValue={30}
+                defaultValue={props.defaultValue}
                 inputProps={{
                     name: props.inputName,
                     id: "uncontrolled-native",
@@ -39,8 +40,8 @@ export function Selector(props: {
 export function CustomizedDateTimeSelector(props: {
     intl: IntlShape,
     labelId: string,
-    chosenDateTime: Dayjs | null,
-    onDateTimeChange: (newValue: Dayjs | null) => void,
+    chosenDateTime: Dayjs,
+    onDateTimeChange: (newValue: Dayjs) => void,
 }) {
     return <div style={{textAlign: 'left'}}>
 
@@ -51,7 +52,7 @@ export function CustomizedDateTimeSelector(props: {
 
             <MobileDateTimePicker
                 value={props.chosenDateTime}
-                onChange={props.onDateTimeChange}
+                onChange={(newValue) => props.onDateTimeChange(newValue == null? dayjs() : newValue)}
             />
         </FormControl></div>
     </div>;
@@ -73,8 +74,8 @@ function FilterBar(props: {
     onChangeEndLocation: (newValue: string) => void,
 
     // time
-    chosenDateTime: Dayjs | null,
-    onDateTimeChange: (newValue: Dayjs | null) => void,
+    chosenDateTime: Dayjs,
+    onDateTimeChange: (newValue: Dayjs) => void,
 
     //is driver
     defaultValueIsDriver: string,
@@ -85,11 +86,11 @@ function FilterBar(props: {
 }) {
     return <div className="flex-container">
         <Selector intl={props.intl} onChange={(event) => props.onChangeStartLocation(event.target.value)}
-                  selectOptions={props.travelPointOptions} labelId={"trip_from"} inputName={"from-filters"}/>
+                  defaultValue={props.defaultValueStartLocation} selectOptions={props.travelPointOptions} labelId={"trip_from"} inputName={"from-filters"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeEndLocation(event.target.value)}
-                  selectOptions={props.travelPointOptions} labelId={"trip_to"} inputName={"to-filters"}/>
+                  defaultValue={props.defaultValueEndLocation} selectOptions={props.travelPointOptions} labelId={"trip_to"} inputName={"to-filters"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
-                  selectOptions={props.driverPointOptions} labelId={"is_driver"} inputName={"is-driver-filters"}/>
+                  defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions} labelId={"is_driver"} inputName={"is-driver-filters"}/>
         <CustomizedDateTimeSelector intl={props.intl} labelId={"at"} chosenDateTime={props.chosenDateTime}
                                     onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
