@@ -37,11 +37,11 @@ function SignedInMainView(props: {
     const numberToLabel = new Map(travelPointsOptions
         .map(({label}, index) => [index, label]))
 
-    const DRIVER_OPTION = '0', PASSENGER_OPTION = '1', EITHER_OPTION = '2';
+    const DRIVER_OPTION = '1', PASSENGER_OPTION = '2', EITHER_OPTION = '0';
     const driverPointsOptions = [
-        {value: DRIVER_OPTION, label: props.intl.formatMessage({id: 'idk_car'})},
-        {value: PASSENGER_OPTION, label: props.intl.formatMessage({id: 'has_car'})},
-        {value: EITHER_OPTION, label: props.intl.formatMessage({id: 'no_car'})},
+        {value: EITHER_OPTION, label: props.intl.formatMessage({id: 'idk_car'})},
+        {value: DRIVER_OPTION, label: props.intl.formatMessage({id: 'has_car'})},
+        {value: PASSENGER_OPTION, label: props.intl.formatMessage({id: 'no_car'})},
     ];
 
 
