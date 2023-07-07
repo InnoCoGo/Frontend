@@ -22,7 +22,9 @@ function SignedInMainView(props: {
     const [selectedArrivalPoint, setSelectedArrivalPoint] =
         useState<string>('0');
     const [selectedDateTime, setSelectedDateTime] = useState<Dayjs>(dayjs());
-    const [selectedIsDriver, setSelectedIsDriver] =
+    const [selectedIsDriverFilter, setSelectedIsDriverFilter] =
+        useState<string>('0');
+    const [selectedIsDriverCreation, setSelectedIsDriverCreation] =
         useState<string>('0');
     const [selectedMaxPlace, setSelectedMaxPlace] =
         useState<string>('1');
@@ -72,14 +74,14 @@ function SignedInMainView(props: {
                     right_timestamp: selectedDateTime.add(filteringThresholdInHours, 'hour').toISOString(),
                     from_point: parseInt(selectedDeparturePoint),
                     to_point: parseInt(selectedArrivalPoint),
-                    companion_type: selectedIsDriver === DRIVER_OPTION ? 'driver' : (selectedIsDriver === PASSENGER_OPTION ? 'passenger' : 'both')
+                    companion_type: selectedIsDriverFilter === DRIVER_OPTION ? 'driver' : (selectedIsDriverFilter === PASSENGER_OPTION ? 'passenger' : 'both')
                 }
             )
         }
     }
 
     async function applySubmit() {
-        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedMaxPlace == null || selectedTakenPlace == null || selectedIsDriver == null)
+        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedMaxPlace == null || selectedTakenPlace == null || selectedIsDriverCreation == null)
             //setCreates(null);
             setCreateMenuOpen(true);
         else {
@@ -91,7 +93,7 @@ function SignedInMainView(props: {
                 },
 
                 body: JSON.stringify({
-                    is_driver: (selectedIsDriver == DRIVER_OPTION),
+                    is_driver: (selectedIsDriverCreation == DRIVER_OPTION),
                     places_max: parseInt(selectedMaxPlace),
                     places_taken: parseInt(selectedTakenPlace),
                     chosen_timestamp: selectedDateTime.toISOString(),
@@ -134,8 +136,8 @@ function SignedInMainView(props: {
                                              onChangeEndLocation={setSelectedArrivalPoint}
                                              chosenDateTime={selectedDateTime}
                                              onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}
-                                             onConfirmCreate={applyCreate} defaultValueIsDriver={selectedIsDriver}
-                                             onChangeIsDriver={setSelectedIsDriver}
+                                             onConfirmCreate={applyCreate} defaultValueIsDriver={selectedIsDriverFilter}
+                                             onChangeIsDriver={setSelectedIsDriverFilter}
                                              driverPointOptions={driverPointsOptions}/>
         }
         {!createMenuOpen ? false :
@@ -144,8 +146,8 @@ function SignedInMainView(props: {
                        travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
                        defaultValueEndLocation={selectedArrivalPoint}
                        onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
-                       onDateTimeChange={setSelectedDateTime} defaultValueIsDriver={selectedIsDriver}
-                       onChangeIsDriver={setSelectedIsDriver} driverPointOptions={driverCreateOptions}
+                       onDateTimeChange={setSelectedDateTime} defaultValueIsDriver={selectedIsDriverCreation}
+                       onChangeIsDriver={setSelectedIsDriverCreation} driverPointOptions={driverCreateOptions}
                        defaultValueMaxPlace={selectedMaxPlace} onChangeMaxPlace={setSelectedMaxPlace}
                        takenPointOptions={takenPointsOptions} defaultValueTakenPlace={selectedTakenPlace}
                        onChangeTakenPlace={setSelectedTakenPlace} onTextChange={setSelectedText}
