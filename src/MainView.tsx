@@ -37,7 +37,6 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
 }
 
 function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo }) {
-    console.log(typeof (props.intl))
 
     const [token, setToken] = useState<string | null>(null);
 

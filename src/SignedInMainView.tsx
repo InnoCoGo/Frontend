@@ -6,6 +6,7 @@ import {SERVER_URL} from "./MainView.tsx";
 import {getDefaultDarkMode} from "./TelegramUtils.ts";
 import {injectIntl, IntlShape} from "react-intl";
 import CreateBar from "./CreateBar.tsx";
+import TopAppBar from "./AppBar.tsx";
 // import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 // import HomeIcon from "@mui/icons-material/Home";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -129,6 +130,7 @@ function SignedInMainView(props: {
     }
 
     return <>
+        {<TopAppBar></TopAppBar>}
         {createMenuOpen ? false : <FilterBar defaultValueStartLocation={selectedDeparturePoint}
                                              onChangeStartLocation={setSelectedDeparturePoint}
                                              travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}

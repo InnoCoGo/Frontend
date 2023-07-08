@@ -32,14 +32,18 @@ function TripBlock({departure, arrival, date, passengers, username, extraNote, i
             <Typography variant="h6">
                 {intl.formatMessage({id: "trip_from"})}: {departure}
             </Typography>
-        </Box>
-
-        <Box display="center" alignItems="center" justifyContent={"center"}>
             <SportsScoreIcon sx={{ fontSize: 27 }}/>
             <Typography variant="h6">
                 {intl.formatMessage({id: "trip_to"})}: {arrival}
             </Typography>
         </Box>
+{/* 
+        <Box display="center" alignItems="center" justifyContent={"center"}>
+            <SportsScoreIcon sx={{ fontSize: 27 }}/>
+            <Typography variant="h6">
+                {intl.formatMessage({id: "trip_to"})}: {arrival}
+            </Typography>
+        </Box> */}
 
         <Box display="center" alignItems="center" justifyContent={"center"}>
             <AlarmIcon sx={{ fontSize: 27 }}/>
