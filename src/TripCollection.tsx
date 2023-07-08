@@ -32,7 +32,22 @@ function TripCollection(props: {
     token: string,
     filters: serverAdjacentTripsRequest
 }) {
+    async function applyJoin() {
+        // if ()
+        // else {
+        //     fetch(`${SERVER_URL}/api/v1/trip/?token=${props.token}`, {
+        //         method: 'post',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         },
 
+        //         body: JSON.stringify({
+        //             trip_id: index,
+        //         })
+        //     });
+        // }
+    }
     const {
         data,
         errorMessage,
@@ -53,6 +68,7 @@ function TripCollection(props: {
                             date={trip.chosen_timestamp}
                             passengers={trip.places_max - trip.places_taken}
                             extraNote={trip.description}
+                            applyJoin={applyJoin}
                         />
                     ))}
     </div>

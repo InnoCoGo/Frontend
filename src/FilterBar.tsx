@@ -2,6 +2,8 @@ import dayjs, {Dayjs} from "dayjs";
 import {Button, FormControl, InputLabel, NativeSelect} from "@mui/material";
 import {injectIntl, IntlShape} from "react-intl";
 import {MobileDateTimePicker} from "@mui/x-date-pickers";
+import SearchIcon from '@mui/icons-material/Search';
+import CreateIcon from '@mui/icons-material/Create';
 
 type selectOption = { value: string; label: string };
 
@@ -95,9 +97,9 @@ function FilterBar(props: {
                                     onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
             <Button variant="contained" disableElevation
-                    onClick={props.onConfirmFilters}>{props.intl.formatMessage({id: "apply_filters"})}</Button>
+                    onClick={props.onConfirmFilters} endIcon={<SearchIcon/>}>{props.intl.formatMessage({id: "apply_filters"})}</Button>
             <Button variant="contained" disableElevation
-                    onClick={props.onConfirmCreate}>{props.intl.formatMessage({id: "create_trip_ui"})}</Button>
+                    onClick={props.onConfirmCreate} endIcon={<CreateIcon/>}>{props.intl.formatMessage({id: "create_trip_ui"})}</Button>
         </div>
     </div>;
 }

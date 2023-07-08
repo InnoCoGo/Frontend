@@ -19,8 +19,8 @@ export default {
         "kazan": "Kazan",
         "uslon": "Verkhniy Uslon",
         'is_driver_placeholder': 'Is driver?',
-        'create_trip_ui': '+',
-        'apply_filters': 'Ok',
+        'create_trip_ui': 'Create',
+        'apply_filters': 'Search',
         'is_driver': 'Has own car?',
         'has_car': 'Own car',
         'no_car': 'No own car',
@@ -28,7 +28,8 @@ export default {
         'max_places': 'Max places',
         'taken_places': 'Places taken',
         'create_ui_cancel': 'Cancel',
-        'create_ui_confirm': 'Create'
+        'create_ui_confirm': 'Create',
+        'join': 'Join'
     },
     'ru': {
         'telegram_login': "Попытка соединения с сервером...",
@@ -50,8 +51,8 @@ export default {
         "kazan": "Казань",
         "uslon": "Верхний Услон",
         'is_driver_placeholder': 'Водитель?',
-        'create_trip_ui': '+',
-        'apply_filters': 'Ок',
+        'create_trip_ui': 'Создать',
+        'apply_filters': 'Найти',
         'is_driver': 'Своя машина?',
         'has_car': 'Своя машина',
         'no_car': 'Нет своей машины',
@@ -59,6 +60,7 @@ export default {
         'max_places': 'Мест всего',
         'taken_places': 'Мест занято',
         'create_ui_cancel': 'Отмена',
-        'create_ui_confirm': 'Создать'
+        'create_ui_confirm': 'Создать',
+        'join': 'Вступить'
     }
 };

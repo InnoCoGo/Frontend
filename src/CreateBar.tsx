@@ -2,6 +2,8 @@ import {Dayjs} from "dayjs";
 import {Button, InputLabel, TextField} from "@mui/material";
 import {injectIntl, IntlShape} from "react-intl";
 import {CustomizedDateTimeSelector, Selector} from "./FilterBar.tsx";
+import CreateIcon from '@mui/icons-material/Create';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type selectOption = { value: string; label: string };
 
@@ -74,9 +76,9 @@ function CreateBar(props: {
                                     onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
             <Button variant="contained"
-                    onClick={props.onConfirmExit}>{props.intl.formatMessage({id: "create_ui_cancel"})}</Button>
+                    onClick={props.onConfirmExit} endIcon={<CancelIcon/>}>{props.intl.formatMessage({id: "create_ui_cancel"})}</Button>
             <Button variant="contained"
-                    onClick={props.onConfirmSubmit}>{props.intl.formatMessage({id: "create_ui_confirm"})}</Button>
+                    onClick={props.onConfirmSubmit} endIcon={<CreateIcon/>}>{props.intl.formatMessage({id: "create_ui_confirm"})}</Button>
         </div>
     </div>;
 }
