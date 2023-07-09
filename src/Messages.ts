@@ -7,8 +7,8 @@ export default {
         'to': "To",
         'at': "At",
         'loading_trips': 'Loading matching trips...',
-        'no_trip_matches': 'NO MATCHES',
-        'unknown_trip_point': 'UNKNOWN DATA',
+        'no_trip_matches': 'No matches',
+        'unknown_trip_point': 'Unknown data',
         "trip_from": "From",
         "trip_to": "To",
         "trip_datetime": "At",
@@ -29,7 +29,9 @@ export default {
         'taken_places': 'Places taken',
         'create_ui_cancel': 'Cancel',
         'create_ui_confirm': 'Create',
-        'join': 'Join'
+        'join': 'Join',
+        'home_tab': 'HOME',
+        'my_trips_tab': 'MY TRIPS'
     },
     'ru': {
         'telegram_login': "Попытка соединения с сервером...",
@@ -39,8 +41,8 @@ export default {
         'to': "Куда",
         'at': "Когда",
         'loading_trips': 'Загрузка подходящих заявок...',
-        'no_trip_matches': 'НЕТ ПОДХОДЯЩИХ ЗАЯВОК',
-        'unknown_trip_point': 'НЕИЗВЕСТНАЯ ЛОКАЦИЯ',
+        'no_trip_matches': 'Нет подходящий заявок',
+        'unknown_trip_point': 'Неизвестная локация',
         "trip_from": "Откуда",
         "trip_to": "Куда",
         "trip_datetime": "Когда",
@@ -61,6 +63,8 @@ export default {
         'taken_places': 'Мест занято',
         'create_ui_cancel': 'Отмена',
         'create_ui_confirm': 'Создать',
-        'join': 'Вступить'
+        'join': 'Вступить',
+        'home_tab': 'ГЛАВНОЕ',
+        'my_trips_tab': 'МОИ ПОЕЗДКИ'
     }
 };

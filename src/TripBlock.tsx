@@ -64,7 +64,7 @@ function TripBlock({departure, arrival, date, passengers, username, extraNote, i
         </CardContent>
 
         <CardActions>
-            <Button href={url} target="_blank" startIcon={<TelegramIcon/>}>{intl.formatMessage({id: "trip_admin_username"})}: @{username}</Button>
+            <Button href={url} target="_blank" startIcon={<TelegramIcon/>}>@{username}</Button>
             <Button variant="contained" disableElevation
                     onClick={applyJoin} endIcon={<BookmarkAddIcon/>}>{intl.formatMessage({id: "join"})}</Button>
         </CardActions>
