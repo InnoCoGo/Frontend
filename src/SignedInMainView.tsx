@@ -13,7 +13,9 @@ import TopAppBar from "./AppBar.tsx";
 // import PersonIcon from "@mui/icons-material/Person";
 function SignedInMainView(props: {
     token: string,
-    intl: IntlShape
+    intl: IntlShape,
+    locale: "en" | "ru",
+    setLocale: (newValue: "en" | "ru") => void
 }) {
 
     const prefersDarkMode = getDefaultDarkMode();
@@ -130,7 +132,7 @@ function SignedInMainView(props: {
     }
 
     return <>
-        {<TopAppBar></TopAppBar>}
+        {<TopAppBar setLocale={props.setLocale} locale={props.locale}></TopAppBar>}
         {createMenuOpen ? false : <FilterBar defaultValueStartLocation={selectedDeparturePoint}
                                              onChangeStartLocation={setSelectedDeparturePoint}
                                              travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}

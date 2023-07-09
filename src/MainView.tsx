@@ -20,6 +20,9 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
 
         body: JSON.stringify(authInfo)
     });
+    console.log("---SENDING AUTH INFO TO SERVER:---")
+    console.log(authInfo)
+    console.log("------")
     const data = await response.json()
     // 3 Options:
     // - {'message': 'expired auth date'} <- the best solution is to restart the webapp. should be rare
@@ -36,7 +39,9 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
     console.log(data)
 }
 
-function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo }) {
+function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo,
+    locale: "en" | "ru",
+    setLocale: (newValue: "en" | "ru") => void }) {
     console.log(typeof (props.intl))
 
     const [token, setToken] = useState<string | null>(null);
@@ -48,7 +53,7 @@ function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo }) {
     return token === null ? props.intl.formatMessage({
             id: "telegram_login"
         }) :
-        <SignedInMainView token={token}/>
+        <SignedInMainView token={token} setLocale={props.setLocale} locale={props.locale}/>
 }
 
 export default injectIntl(MainView)

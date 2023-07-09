@@ -6,9 +6,14 @@ import Tabs from '@mui/material/Tabs';
 import Container from '@mui/material/Container';
 import { Tab } from '@mui/material';
 import imgUrl from './img/LOGO(resize).svg'
+import {FlagLocaleSelector} from "./App.tsx";
 
 
-function TopAppBar() {
+
+function TopAppBar(props : {
+  locale: "en" | "ru",
+  setLocale: (newValue: "en" | "ru") => void
+}) {
     const [value,setValue] = React.useState();
 
   return (
@@ -22,11 +27,13 @@ function TopAppBar() {
           <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
             <Tab label="HOME"/>
             <Tab label="MY TRIPS"/>
-            <Tab label="SETTINGS"/>
           </Tabs>
+          <Box sx={{ flexGrow: 1 }} />
+          <FlagLocaleSelector locale={props.locale} setLocale={props.setLocale}/>
         </Toolbar>
       </Container>
     </AppBar>
   );
+  // TODO: fix fixed placement https://mui.com/material-ui/react-app-bar/#fixed-placement (move this appbar to top)
 }
 export default TopAppBar;

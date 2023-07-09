@@ -12,13 +12,37 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {IntlProvider} from "react-intl";
 import messages from "./Messages.ts";
 import Typography from "@mui/material/Typography";
-import {Stack, Switch} from "@mui/material";
+import {Stack, SvgIcon, Switch} from "@mui/material";
 import {useLocalStorage} from "usehooks-ts";
 import "dayjs/locale/en";
 import "dayjs/locale/ru";
+import { IconButton } from '@mui/material';
 
 
-function LocaleSelector(props: {
+
+export function FlagLocaleSelector(props: {
+    locale: "en" | "ru",
+    setLocale: (newValue: "en" | "ru") => void
+}) {
+
+    const ruIcon = <SvgIcon>
+        {/* credit: plus icon from https://heroicons.com/ */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6"><path fill="#fff" d="M0 0h9v3H0z"/><path fill="#DA291C" d="M0 3h9v3H0z"/><path fill="#0032A0" d="M0 2h9v2H0z"/></svg>
+    </SvgIcon>
+    const enIcon = <SvgIcon>
+        {/* credit: plus icon from https://heroicons.com/ */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30"><clipPath id="a"><path d="M0 0v30h60V0z"/></clipPath><clipPath id="b"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clipPath="url(#a)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" strokeWidth="6"/><path d="M0 0l60 30m0-30L0 30" clipPath="url(#b)" stroke="#C8102E" strokeWidth="4"/><path d="M30 0v30M0 15h60" stroke="#fff" strokeWidth="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" strokeWidth="6"/></g></svg>
+    </SvgIcon>
+    return  <IconButton onClick={() => props.setLocale(props.locale == 'en' ? "ru" : "en")}>
+        {
+            props.locale == 'en' ?
+                ruIcon : enIcon
+        }
+    </IconButton>
+}
+
+
+export function LocaleSelector(props: {
     locale: "en" | "ru",
     setLocale: (newValue: "en" | "ru") => void
 }) {
@@ -28,6 +52,7 @@ function LocaleSelector(props: {
             checked={props.locale === 'ru'}
             onChange={(_, checked) => props.setLocale(checked ? "ru" : "en")}
             inputProps={{'aria-label': 'controlled'}}
+            color="default"
         />
         <Typography>Ru</Typography>
     </Stack>
@@ -66,7 +91,7 @@ function App() {
                 }
                 {
                     tgUser === null ? null :
-                        <MainView authInfo={tgUser}/>
+                        <MainView authInfo={tgUser} setLocale={setLocale} locale={locale}/>
                 }
             </LocalizationProvider>
         </ThemeProvider>
