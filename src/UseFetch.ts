@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 
 // Based on https://medium.com/swlh/usefetch-a-custom-react-hook-36d5f5819d8
-function useFetch<T>(initialUrl: string, params: string, method: string, skip = false) {
+function useFetch<T>(initialUrl: string, params: string | null, method: string, skip = false) {
     const [url, updateUrl] = useState(initialUrl)
     const [data, setData] = useState<T | null>(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -14,16 +14,16 @@ function useFetch<T>(initialUrl: string, params: string, method: string, skip = 
             if (skip) return
             setIsLoading(true)
             try {
-                console.log(params)
-                const response = await fetch(`${url}`, {
+                const fetchOptions = {
                     method: method,
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-
-                    body: params
-                });
+                    ...(params && { body: params })
+                };
+                console.log(params)
+                const response = await fetch(`${url}`, fetchOptions);
                 const result = await response.json()
                 if (response.ok) {
                     setData(result)

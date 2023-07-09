@@ -7,6 +7,7 @@ import {getDefaultDarkMode} from "./TelegramUtils.ts";
 import {injectIntl, IntlShape} from "react-intl";
 import CreateBar from "./CreateBar.tsx";
 import TopAppBar from "./AppBar.tsx";
+import OwnTripCollection from "./OwnTripCollection.tsx";
 // import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 // import HomeIcon from "@mui/icons-material/Home";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -60,7 +61,7 @@ function SignedInMainView(props: {
             });
     const [filters, setFilters] = useState<null | serverAdjacentTripsRequest>(null);
     const [createMenuOpen, setCreateMenuOpen] = useState<boolean>(false);
-
+    const [MenuHome, setMenuHome] = useState<boolean>(true);
     //const [creates, setCreates] = useState<null|serverCreateTripRequest>(null);
 
     function applyFilters() {
@@ -128,10 +129,16 @@ function SignedInMainView(props: {
     function applyExit() {
         setCreateMenuOpen(false);
     }
-
+    function applyHome(){
+        setMenuHome(true);
+    }
+    function applyMyTrip(){
+        setMenuHome(false);
+    }
     return <>
-        {<TopAppBar></TopAppBar>}
-        {createMenuOpen ? false : <FilterBar defaultValueStartLocation={selectedDeparturePoint}
+        {<TopAppBar applyHome={applyHome} applyMyTrip={applyMyTrip}/>}
+        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel} />}
+        {(createMenuOpen || !MenuHome) ? undefined: <FilterBar defaultValueStartLocation={selectedDeparturePoint}
                                              onChangeStartLocation={setSelectedDeparturePoint}
                                              travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
                                              defaultValueEndLocation={selectedArrivalPoint}
@@ -142,7 +149,7 @@ function SignedInMainView(props: {
                                              onChangeIsDriver={setSelectedIsDriverFilter}
                                              driverPointOptions={driverPointsOptions}/>
         }
-        {!createMenuOpen ? false :
+        {(!createMenuOpen || !MenuHome) ? undefined :
             <CreateBar defaultValueStartLocation={selectedDeparturePoint}
                        onChangeStartLocation={setSelectedDeparturePoint}
                        travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
@@ -161,14 +168,6 @@ function SignedInMainView(props: {
             } */}
         {filters == null || createMenuOpen ? null :
             <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
-            {/* {<BottomNavigation 
-            sx={{width : '100%' , position: "absolute" , bottom:0}}
-            onChange={() =>{
-            }}>
-                <BottomNavigationAction label = 'Home' icon = {<HomeIcon />} />
-                <BottomNavigationAction label = 'Favorite' icon = {<FavoriteIcon />} />
-                <BottomNavigationAction label = 'Profile' icon = {<PersonIcon />} />
-                </BottomNavigation>} */}
     </>;
 
 }

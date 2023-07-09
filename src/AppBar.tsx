@@ -5,9 +5,12 @@ import Toolbar from '@mui/material/Toolbar';
 import Tabs from '@mui/material/Tabs';
 import Container from '@mui/material/Container';
 import { Tab } from '@mui/material';
+import imgUrl from './img/LOGO(resize).svg'
 
-
-function TopAppBar() {
+function TopAppBar(props: {
+  applyHome: () => void,
+  applyMyTrip: () => void,
+}){
     const [value,setValue] = React.useState();
 
   return (
@@ -15,13 +18,12 @@ function TopAppBar() {
       <Container >
         <Toolbar disableGutters>
         <Box sx={{ height: 64 }}>
-          <img src="src/img/LOGO(resize).svg" />
+          <img src={imgUrl} alt={"InnoCoGo"}/>
         </Box>
 
           <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
-            <Tab label="HOME"/>
-            <Tab label="MY TRIPS"/>
-            <Tab label="SETTINGS"/>
+            <Tab label="HOME"  onClick={props.applyHome} />
+            <Tab label="MY TRIPS"  onClick={props.applyMyTrip} />
           </Tabs>
         </Toolbar>
       </Container>
