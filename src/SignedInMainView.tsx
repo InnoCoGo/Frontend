@@ -168,7 +168,7 @@ function SignedInMainView(props: {
         {/* {creates == null? null:
             <SubmitBar token={props.token} creates={creates}></SubmitBar>
             } */}
-        {filters == null || createMenuOpen ? null :
+        {filters == null || createMenuOpen || !MenuHome? null :
             <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
     </>;
 
