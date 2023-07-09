@@ -12,8 +12,10 @@ import {FlagLocaleSelector} from "./App.tsx";
 
 function TopAppBar(props : {
   locale: "en" | "ru",
-  setLocale: (newValue: "en" | "ru") => void
-}) {
+  setLocale: (newValue: "en" | "ru") => void,
+  applyHome: () => void,
+  applyMyTrip: () => void,
+}){
     const [value,setValue] = React.useState();
 
   return (
@@ -21,12 +23,12 @@ function TopAppBar(props : {
       <Container >
         <Toolbar disableGutters>
         <Box sx={{ height: 64 }}>
-          <img src={imgUrl}  alt={"InnoCoGo"}/>
+          <img src={imgUrl} alt={"InnoCoGo"}/>
         </Box>
 
           <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
-            <Tab label="HOME"/>
-            <Tab label="MY TRIPS"/>
+            <Tab label="HOME"  onClick={props.applyHome} />
+            <Tab label="MY TRIPS"  onClick={props.applyMyTrip} />
           </Tabs>
           <Box sx={{ flexGrow: 1 }} />
           <FlagLocaleSelector locale={props.locale} setLocale={props.setLocale}/>
