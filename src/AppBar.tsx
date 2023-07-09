@@ -6,7 +6,9 @@ import Tabs from '@mui/material/Tabs';
 import Container from '@mui/material/Container';
 import { Tab } from '@mui/material';
 import imgUrl from './img/LOGO(resize).svg'
+import imgUrlWhite from './img/LOGO(resize)_white.svg'
 import {FlagLocaleSelector} from "./App.tsx";
+import {getDefaultDarkMode} from "./TelegramUtils.ts";
 
 
 
@@ -16,14 +18,16 @@ function TopAppBar(props : {
   applyHome: () => void,
   applyMyTrip: () => void,
 }){
-    const [value,setValue] = React.useState();
+
+  const prefersDarkMode = getDefaultDarkMode();
+  const [value,setValue] = React.useState();
 
   return (
     <AppBar position='fixed'>
       <Container >
         <Toolbar disableGutters>
         <Box sx={{ height: 64 }}>
-          <img src={imgUrl} alt={"InnoCoGo"}/>
+          <img src={prefersDarkMode? imgUrlWhite : imgUrl} alt={"InnoCoGo"}/>
         </Box>
 
           <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
