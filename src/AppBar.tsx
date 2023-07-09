@@ -11,11 +11,11 @@ function TopAppBar() {
     const [value,setValue] = React.useState();
 
   return (
-    <AppBar position="static">
-      <Container>
+    <AppBar position='fixed'>
+      <Container >
         <Toolbar disableGutters>
         <Box sx={{ height: 64 }}>
-          <img src="src/img/output-onlinepngtools(1).png" />
+          <img src="src/img/LOGO(resize).svg" />
         </Box>
 
           <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
