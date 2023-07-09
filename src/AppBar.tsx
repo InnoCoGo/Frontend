@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tabs from '@mui/material/Tabs';
 import Container from '@mui/material/Container';
 import { Tab } from '@mui/material';
+import imgUrl from './img/LOGO(resize).svg'
 
 
 function TopAppBar() {
@@ -15,7 +16,7 @@ function TopAppBar() {
       <Container >
         <Toolbar disableGutters>
         <Box sx={{ height: 64 }}>
-          <img src="src/img/LOGO(resize).svg" />
+          <img src={imgUrl}  alt={"InnoCoGo"}/>
         </Box>
 
           <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
