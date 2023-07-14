@@ -4,6 +4,7 @@ import {injectIntl, IntlShape} from "react-intl";
 import JoinedTripBlock from './JoinedTripBlock.tsx';
 import {singleTripDescription} from "./TripCollection.tsx";
 import {useEffect, useState} from "react";
+import {enqueueSnackbar} from "notistack";
 
 export type serverJoinedTripsResponse =
     {
@@ -35,6 +36,8 @@ function OwnTripCollection(props: {
             method: "delete",
             body: JSON.stringify({"trip_id": deletedTripId})
         }).then(refetch)
+            .then(()=> enqueueSnackbar(props.intl.formatMessage({id:"trip_deleted_message"}),
+                {variant: 'success', anchorOrigin:{vertical:"bottom", horizontal:"center"}}))
     }, [deletedTripId]);
 
     const clickDelete = (index: number) => {

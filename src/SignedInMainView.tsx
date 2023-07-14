@@ -9,6 +9,7 @@ import CreateBar from "./CreateBar.tsx";
 import TopAppBar from "./AppBar.tsx";
 import OwnTripCollection, {serverJoinedTripsResponse} from "./OwnTripCollection.tsx";
 import {useEffectOnce} from "usehooks-ts";
+import {enqueueSnackbar} from "notistack";
 // import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 // import HomeIcon from "@mui/icons-material/Home";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -126,6 +127,8 @@ function SignedInMainView(props: {
             setSelectedText("")
             setCreateMenuOpen(false);
 
+            enqueueSnackbar(props.intl.formatMessage({id:"trip_created_message"}),
+                {variant: 'success', anchorOrigin:{vertical:"bottom", horizontal:"center"}})
             // setCreates(
             //     {
             //         is_driver : (selectedIsDriver.value == "true"),

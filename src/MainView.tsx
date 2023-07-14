@@ -4,13 +4,14 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import {getUsername, telegramAuthInfo} from "./Types.ts";
 import SignedInMainView from "./SignedInMainView.tsx";
 import {injectIntl, IntlShape} from "react-intl";
+import {enqueueSnackbar} from "notistack";
 
 dayjs.extend(customParseFormat);
 
 // TODO: move to .env
 export const SERVER_URL = 'https://inno.co-go.chickenkiller.com'
 
-async function tryRetrieveToken(setToken: (token: string | null) => void, authInfo: telegramAuthInfo) {
+async function tryRetrieveToken(setToken: (token: string | null) => void, authInfo: telegramAuthInfo, intl : IntlShape) {
     const response = await fetch(`${SERVER_URL}/api/v1/auth/tg-login`, {
         method: "post",
         headers: {
@@ -30,8 +31,8 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
     // - {'message': "the hashes don't match" } <- something bad is going on.
     //      frontend or backend could be broken, or a malicious actor could be in play
     if ('message' in data) {
-        // TODO: better UI
-        alert("failure during login. Try restarting the webapp")
+        enqueueSnackbar(intl.formatMessage({id:"login_failure"}),
+            {variant: 'error', anchorOrigin:{vertical:"bottom", horizontal:"center"}, persist: true})
     } else {
         setToken(data.token);
     }
@@ -47,7 +48,7 @@ function MainView(props: {
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        tryRetrieveToken(setToken, props.authInfo);
+        tryRetrieveToken(setToken, props.authInfo, props.intl);
     }, []);
 
     return token === null ? props.intl.formatMessage({

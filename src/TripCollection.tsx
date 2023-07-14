@@ -3,6 +3,7 @@ import {SERVER_URL} from "./MainView.tsx";
 import {injectIntl, IntlShape} from "react-intl";
 import {useEffect, useState} from 'react';
 import FilteredTripBlock from "./FilteredTripBlock.tsx";
+import {enqueueSnackbar} from "notistack";
 
 export type singleTripDescription = {
     "id": number,
@@ -63,6 +64,8 @@ function TripCollection(props: {
         setIsFetching(true)
         fetch(`${SERVER_URL}/api/v1/user/join_trip/req/${joinTripId}?token=${props.token}`)
             .then(() => setIsFetching(false))
+            .then(()=> enqueueSnackbar(props.intl.formatMessage({id:"trip_joined_message"}),
+                {variant: 'success', anchorOrigin:{vertical:"bottom", horizontal:"center"}}))
     }, [joinTripId]);
     const applyJoin = (index: number) => {
         console.log(index);

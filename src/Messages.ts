@@ -32,7 +32,11 @@ export default {
         'join': 'Join',
         'home_tab': 'FIND',
         'my_trips_tab': 'MY TRIPS',
-        'leave': 'Leave'
+        'leave': 'Leave',
+        'trip_deleted_message': "You successfully left the trip!",
+        'trip_joined_message': "You have requested to join the trip!",
+        'trip_created_message': "You have successfully created a trip!",
+        'login_failure': "Login failure! Try restarting the webapp."
     },
     'ru': {
         'telegram_login': "Попытка соединения с сервером...",
@@ -67,6 +71,10 @@ export default {
         'join': 'Вступить',
         'home_tab': 'НАЙТИ',
         'my_trips_tab': 'МОИ ПОЕЗДКИ',
-        'leave': 'Покинуть'
+        'leave': 'Покинуть',
+        'trip_deleted_message': "Вы успешно покинули поездку!",
+        'trip_joined_message': "Вы запросили разрешение на участие в поездке!",
+        'trip_created_message': "Вы успешно создали поездку!",
+        'login_failure': "Ошибка при соединении с сервером! Попробуйте перезагрузить приложение."
     }
 };

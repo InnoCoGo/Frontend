@@ -16,6 +16,7 @@ import {IconButton, Stack, SvgIcon, Switch} from "@mui/material";
 import {useLocalStorage} from "usehooks-ts";
 import "dayjs/locale/en";
 import "dayjs/locale/ru";
+import {SnackbarProvider} from "notistack";
 
 
 export function FlagLocaleSelector(props: {
@@ -107,6 +108,7 @@ function App() {
                     tgUser === null ? null :
                         <MainView authInfo={tgUser} setLocale={setLocale} locale={locale}/>
                 }
+                <SnackbarProvider />
             </LocalizationProvider>
         </ThemeProvider>
     </IntlProvider>
