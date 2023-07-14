@@ -8,10 +8,6 @@ import {injectIntl, IntlShape} from "react-intl";
 import CreateBar from "./CreateBar.tsx";
 import TopAppBar from "./AppBar.tsx";
 import OwnTripCollection from "./OwnTripCollection.tsx";
-// import { BottomNavigation, BottomNavigationAction } from "@mui/material";
-// import HomeIcon from "@mui/icons-material/Home";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
-// import PersonIcon from "@mui/icons-material/Person";
 function SignedInMainView(props: {
     token: string,
     intl: IntlShape,
