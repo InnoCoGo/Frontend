@@ -32,8 +32,8 @@ function TopAppBar(props: {
                     </Box>
 
                     <Tabs textColor='inherit' value={value} onChange={() => setValue(value)} indicatorColor='primary'>
-                        <Tab label={props.intl.formatMessage({id: "home_tab"})} onClick={props.applyHome}/>
-                        <Tab label={props.intl.formatMessage({id: "my_trips_tab"})} onClick={props.applyMyTrip}/>
+                        <Tab label={props.intl.formatMessage({id: "home_tab"})} onClick={()=>{setValue(0); props.applyHome();}}/>
+                        <Tab label={props.intl.formatMessage({id: "my_trips_tab"})} onClick={()=>{setValue(1); props.applyMyTrip();}}/>
                     </Tabs>
                     <Box sx={{flexGrow: 1}}/>
                     <FlagLocaleSelector locale={props.locale} setLocale={props.setLocale}/>
