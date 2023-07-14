@@ -49,15 +49,20 @@ function CreateBar(props: {
     return <div className="flex-container">
 
         <Selector intl={props.intl} onChange={(event) => props.onChangeStartLocation(event.target.value)}
-                  defaultValue={props.defaultValueStartLocation} selectOptions={props.travelPointOptions} labelId={"trip_from"} inputName={"from-create"}/>
+                  defaultValue={props.defaultValueStartLocation} selectOptions={props.travelPointOptions}
+                  labelId={"trip_from"} inputName={"from-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeEndLocation(event.target.value)}
-                  defaultValue={props.defaultValueEndLocation} selectOptions={props.travelPointOptions} labelId={"trip_to"} inputName={"to-create"}/>
+                  defaultValue={props.defaultValueEndLocation} selectOptions={props.travelPointOptions}
+                  labelId={"trip_to"} inputName={"to-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
-                  defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions} labelId={"is_driver"} inputName={"is-driver-create"}/>
+                  defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions}
+                  labelId={"is_driver"} inputName={"is-driver-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeMaxPlace(event.target.value)}
-                  defaultValue={props.defaultValueMaxPlace} selectOptions={props.takenPointOptions} labelId={"max_places"} inputName={"max-places-create"}/>
+                  defaultValue={props.defaultValueMaxPlace} selectOptions={props.takenPointOptions}
+                  labelId={"max_places"} inputName={"max-places-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeTakenPlace(event.target.value)}
-                  defaultValue={props.defaultValueTakenPlace} selectOptions={props.takenPointOptions} labelId={"taken_places"} inputName={"taken-places-create"}/>
+                  defaultValue={props.defaultValueTakenPlace} selectOptions={props.takenPointOptions}
+                  labelId={"taken_places"} inputName={"taken-places-create"}/>
 
         <div style={{textAlign: 'left'}}>
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
@@ -76,9 +81,11 @@ function CreateBar(props: {
                                     onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
             <Button variant="contained"
-                    onClick={props.onConfirmExit} endIcon={<CancelIcon/>}>{props.intl.formatMessage({id: "create_ui_cancel"})}</Button>
+                    onClick={props.onConfirmExit}
+                    endIcon={<CancelIcon/>}>{props.intl.formatMessage({id: "create_ui_cancel"})}</Button>
             <Button variant="contained"
-                    onClick={props.onConfirmSubmit} endIcon={<CreateIcon/>}>{props.intl.formatMessage({id: "create_ui_confirm"})}</Button>
+                    onClick={props.onConfirmSubmit}
+                    endIcon={<CreateIcon/>}>{props.intl.formatMessage({id: "create_ui_confirm"})}</Button>
         </div>
     </div>;
 }

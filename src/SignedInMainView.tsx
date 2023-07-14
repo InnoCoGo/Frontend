@@ -1,5 +1,5 @@
 import FilterBar from "./FilterBar.tsx";
-import TripCollection, {serverAdjacentTripsRequest} from "./TripCollection.tsx";
+import FilteredTrips, {serverAdjacentTripsRequest} from "./TripCollection.tsx";
 import {useState} from "react";
 import dayjs, {Dayjs} from "dayjs";
 import {SERVER_URL} from "./MainView.tsx";
@@ -7,7 +7,8 @@ import {getDefaultDarkMode} from "./TelegramUtils.ts";
 import {injectIntl, IntlShape} from "react-intl";
 import CreateBar from "./CreateBar.tsx";
 import TopAppBar from "./AppBar.tsx";
-import OwnTripCollection from "./OwnTripCollection.tsx";
+import OwnTripCollection, {serverJoinedTripsResponse} from "./OwnTripCollection.tsx";
+import {useEffectOnce} from "usehooks-ts";
 // import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 // import HomeIcon from "@mui/icons-material/Home";
 // import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -16,7 +17,8 @@ function SignedInMainView(props: {
     token: string,
     intl: IntlShape,
     locale: "en" | "ru",
-    setLocale: (newValue: "en" | "ru") => void
+    setLocale: (newValue: "en" | "ru") => void,
+    userTelegramUsername: string
 }) {
 
     const prefersDarkMode = getDefaultDarkMode();
@@ -51,7 +53,6 @@ function SignedInMainView(props: {
     ];
 
 
-
     const driverCreateOptions = [
         {value: '0', label: props.intl.formatMessage({id: 'has_car'})},
         {value: '1', label: props.intl.formatMessage({id: 'no_car'})},
@@ -64,6 +65,21 @@ function SignedInMainView(props: {
     const [filters, setFilters] = useState<null | serverAdjacentTripsRequest>(null);
     const [createMenuOpen, setCreateMenuOpen] = useState<boolean>(false);
     const [MenuHome, setMenuHome] = useState<boolean>(true);
+    const [tripsAlreadyAttemptedToJoin, setTripsAlreadyAttemptedToJoin] = useState<Set<number>>(new Set<number>())
+
+    useEffectOnce(() => {
+        fetch(`${SERVER_URL}/api/v1/trip/?token=${props.token}`, {method: "get"})
+            .then((response) =>
+                response.json().then((joinedTrips: serverJoinedTripsResponse) => {
+                        (joinedTrips.data ?? []).forEach(joinedTrip =>
+                            tripsAlreadyAttemptedToJoin.add(joinedTrip.id)
+                        )
+                        setTripsAlreadyAttemptedToJoin(tripsAlreadyAttemptedToJoin)
+                    }
+                )
+            )
+    })
+
     //const [creates, setCreates] = useState<null|serverCreateTripRequest>(null);
 
     function applyFilters() {
@@ -131,25 +147,31 @@ function SignedInMainView(props: {
     function applyExit() {
         setCreateMenuOpen(false);
     }
-    function applyHome(){
+
+    function applyHome() {
         setMenuHome(true);
     }
-    function applyMyTrip(){
+
+    function applyMyTrip() {
         setMenuHome(false);
     }
+
     return <>
         {<TopAppBar setLocale={props.setLocale} locale={props.locale} applyHome={applyHome} applyMyTrip={applyMyTrip}/>}
-        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel} />}
-        {(createMenuOpen || !MenuHome) ? undefined: <FilterBar defaultValueStartLocation={selectedDeparturePoint}
-                                             onChangeStartLocation={setSelectedDeparturePoint}
-                                             travelPointOptions={travelPointsOptions} prefersDark={prefersDarkMode}
-                                             defaultValueEndLocation={selectedArrivalPoint}
-                                             onChangeEndLocation={setSelectedArrivalPoint}
-                                             chosenDateTime={selectedDateTime}
-                                             onDateTimeChange={setSelectedDateTime} onConfirmFilters={applyFilters}
-                                             onConfirmCreate={applyCreate} defaultValueIsDriver={selectedIsDriverFilter}
-                                             onChangeIsDriver={setSelectedIsDriverFilter}
-                                             driverPointOptions={driverPointsOptions}/>
+        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel}/>}
+        {(createMenuOpen || !MenuHome) ? undefined : <FilterBar defaultValueStartLocation={selectedDeparturePoint}
+                                                                onChangeStartLocation={setSelectedDeparturePoint}
+                                                                travelPointOptions={travelPointsOptions}
+                                                                prefersDark={prefersDarkMode}
+                                                                defaultValueEndLocation={selectedArrivalPoint}
+                                                                onChangeEndLocation={setSelectedArrivalPoint}
+                                                                chosenDateTime={selectedDateTime}
+                                                                onDateTimeChange={setSelectedDateTime}
+                                                                onConfirmFilters={applyFilters}
+                                                                onConfirmCreate={applyCreate}
+                                                                defaultValueIsDriver={selectedIsDriverFilter}
+                                                                onChangeIsDriver={setSelectedIsDriverFilter}
+                                                                driverPointOptions={driverPointsOptions}/>
         }
         {(!createMenuOpen || !MenuHome) ? undefined :
             <CreateBar defaultValueStartLocation={selectedDeparturePoint}
@@ -168,8 +190,12 @@ function SignedInMainView(props: {
         {/* {creates == null? null:
             <SubmitBar token={props.token} creates={creates}></SubmitBar>
             } */}
-        {filters == null || createMenuOpen || !MenuHome? null :
-            <TripCollection token={props.token} pointToName={numberToLabel} filters={filters}/>}
+        {filters == null || createMenuOpen || !MenuHome ? null :
+            <FilteredTrips token={props.token} pointToName={numberToLabel} filters={filters}
+                           userTelegramUsername={props.userTelegramUsername}
+                           tripsAlreadyAttemptedToJoin={tripsAlreadyAttemptedToJoin}
+                           setTripsAlreadyAttemptedToJoin={setTripsAlreadyAttemptedToJoin}
+            />}
     </>;
 
 }

@@ -20,7 +20,7 @@ function useFetch<T>(initialUrl: string, params: string | null, method: string, 
                         'Accept': 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    ...(params && { body: params })
+                    ...(params && {body: params})
                 };
                 console.log(params)
                 const response = await fetch(`${url}`, fetchOptions);

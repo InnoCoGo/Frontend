@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import {telegramAuthInfo} from "./Types.ts";
+import {getUsername, telegramAuthInfo} from "./Types.ts";
 import SignedInMainView from "./SignedInMainView.tsx";
 import {injectIntl, IntlShape} from "react-intl";
 
@@ -39,11 +39,11 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
     console.log(data)
 }
 
-function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo,
+function MainView(props: {
+    intl: IntlShape, authInfo: telegramAuthInfo,
     locale: "en" | "ru",
-    setLocale: (newValue: "en" | "ru") => void }) {
-    console.log(typeof (props.intl))
-
+    setLocale: (newValue: "en" | "ru") => void
+}) {
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
@@ -53,7 +53,8 @@ function MainView(props: { intl: IntlShape, authInfo: telegramAuthInfo,
     return token === null ? props.intl.formatMessage({
             id: "telegram_login"
         }) :
-        <SignedInMainView token={token} setLocale={props.setLocale} locale={props.locale}/>
+        <SignedInMainView token={token} setLocale={props.setLocale} locale={props.locale}
+                          userTelegramUsername={getUsername(props.authInfo)}/>
 }
 
 export default injectIntl(MainView)

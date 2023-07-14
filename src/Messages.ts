@@ -30,8 +30,9 @@ export default {
         'create_ui_cancel': 'Cancel',
         'create_ui_confirm': 'Create',
         'join': 'Join',
-        'home_tab': 'HOME',
-        'my_trips_tab': 'MY TRIPS'
+        'home_tab': 'FIND',
+        'my_trips_tab': 'MY TRIPS',
+        'leave': 'Leave'
     },
     'ru': {
         'telegram_login': "Попытка соединения с сервером...",
@@ -64,7 +65,8 @@ export default {
         'create_ui_cancel': 'Отмена',
         'create_ui_confirm': 'Создать',
         'join': 'Вступить',
-        'home_tab': 'ГЛАВНОЕ',
-        'my_trips_tab': 'МОИ ПОЕЗДКИ'
+        'home_tab': 'НАЙТИ',
+        'my_trips_tab': 'МОИ ПОЕЗДКИ',
+        'leave': 'Покинуть'
     }
 };

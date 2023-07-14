@@ -1,11 +1,11 @@
-import TripBlock from "./TripBlock.tsx";
 import useFetch from "./UseFetch.ts";
 import {SERVER_URL} from "./MainView.tsx";
 import {injectIntl, IntlShape} from "react-intl";
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
+import FilteredTripBlock from "./FilteredTripBlock.tsx";
 
 export type singleTripDescription = {
-    "id" : number,
+    "id": number,
     "admin_username": string,
     "admin_id": number,
     "is_driver": boolean,
@@ -16,16 +16,12 @@ export type singleTripDescription = {
     "to_point": number,
     "description": string
 }
- export type singleJoinDescription = {
+export type singleJoinDescription = {
     "status": string,
 }
 export type serverAdjacentTripsResponse =
     {
         data: singleTripDescription[] | null
-    }
-export type serverJoinTripsResponse =
-    {
-        data: singleJoinDescription | null
     }
 export type serverAdjacentTripsRequest = {
     "left_timestamp": string, // new Date()-parsable string
@@ -39,9 +35,12 @@ function TripCollection(props: {
     intl: IntlShape,
     pointToName: Map<number, string>,
     token: string,
-    filters: serverAdjacentTripsRequest
+    filters: serverAdjacentTripsRequest,
+    userTelegramUsername: string,
+    tripsAlreadyAttemptedToJoin: Set<number>,
+    setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void
 }) {
-    const [joinTripId, setJoinTripId] = useState<number|null>(null);
+    const [joinTripId, setJoinTripId] = useState<number | null>(null);
     const [isFetching, setIsFetching] = useState<boolean>(false);
 
     // TODO: do something with the value
@@ -49,9 +48,9 @@ function TripCollection(props: {
 
     const {
         data: tripsData,
-        errorMessage : tripsErrorMessage,
-        hasError : tripsHasError,
-        isLoading : tripsIsLoading,
+        errorMessage: tripsErrorMessage,
+        hasError: tripsHasError,
+        isLoading: tripsIsLoading,
     } = useFetch<serverAdjacentTripsResponse>(`${SERVER_URL}/api/v1/trip/adjacent?token=${props.token}`, JSON.stringify(props.filters), "put", false)
 
 
@@ -65,18 +64,19 @@ function TripCollection(props: {
         fetch(`${SERVER_URL}/api/v1/user/join_trip/req/${joinTripId}?token=${props.token}`)
             .then(() => setIsFetching(false))
     }, [joinTripId]);
-    const applyJoin = (index:number) => {
+    const applyJoin = (index: number) => {
         console.log(index);
+        props.tripsAlreadyAttemptedToJoin.add(index)
         setJoinTripId(index);
-    };    
+    };
     return <div className="results">
 
         {tripsHasError ? tripsErrorMessage :
             tripsIsLoading || tripsData == null ? props.intl.formatMessage({id: "loading_trips"}) :
                 tripsData.data == null ? props.intl.formatMessage({id: "no_trip_matches"}) :
-                    tripsData.data.map((trip, index) => (
-                        <TripBlock
-                            key={index}
+                    tripsData.data.map(trip => (
+                        <FilteredTripBlock
+                            key={trip.id}
                             username={trip.admin_username}
                             departure={props.pointToName.get(trip.from_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.from_point}`}
                             arrival={props.pointToName.get(trip.to_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.to_point}`}
@@ -84,6 +84,7 @@ function TripCollection(props: {
                             passengers={trip.places_max - trip.places_taken}
                             extraNote={trip.description}
                             applyJoin={() => applyJoin(trip.id)}
+                            disableButton={props.userTelegramUsername == trip.admin_username || props.tripsAlreadyAttemptedToJoin.has(trip.id)}
                         />
                     ))}
     </div>

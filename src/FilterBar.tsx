@@ -54,7 +54,7 @@ export function CustomizedDateTimeSelector(props: {
 
             <MobileDateTimePicker
                 value={props.chosenDateTime}
-                onChange={(newValue) => props.onDateTimeChange(newValue == null? dayjs() : newValue)}
+                onChange={(newValue) => props.onDateTimeChange(newValue == null ? dayjs() : newValue)}
             />
         </FormControl></div>
     </div>;
@@ -88,18 +88,23 @@ function FilterBar(props: {
 }) {
     return <div className="flex-container">
         <Selector intl={props.intl} onChange={(event) => props.onChangeStartLocation(event.target.value)}
-                  defaultValue={props.defaultValueStartLocation} selectOptions={props.travelPointOptions} labelId={"trip_from"} inputName={"from-filters"}/>
+                  defaultValue={props.defaultValueStartLocation} selectOptions={props.travelPointOptions}
+                  labelId={"trip_from"} inputName={"from-filters"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeEndLocation(event.target.value)}
-                  defaultValue={props.defaultValueEndLocation} selectOptions={props.travelPointOptions} labelId={"trip_to"} inputName={"to-filters"}/>
+                  defaultValue={props.defaultValueEndLocation} selectOptions={props.travelPointOptions}
+                  labelId={"trip_to"} inputName={"to-filters"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
-                  defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions} labelId={"is_driver"} inputName={"is-driver-filters"}/>
+                  defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions}
+                  labelId={"is_driver"} inputName={"is-driver-filters"}/>
         <CustomizedDateTimeSelector intl={props.intl} labelId={"at"} chosenDateTime={props.chosenDateTime}
                                     onDateTimeChange={props.onDateTimeChange}/>
         <div className="flex-container-horizontal">
             <Button variant="contained" disableElevation
-                    onClick={props.onConfirmFilters} endIcon={<SearchIcon/>}>{props.intl.formatMessage({id: "apply_filters"})}</Button>
+                    onClick={props.onConfirmFilters}
+                    endIcon={<SearchIcon/>}>{props.intl.formatMessage({id: "apply_filters"})}</Button>
             <Button variant="contained" disableElevation
-                    onClick={props.onConfirmCreate} endIcon={<CreateIcon/>}>{props.intl.formatMessage({id: "create_trip_ui"})}</Button>
+                    onClick={props.onConfirmCreate}
+                    endIcon={<CreateIcon/>}>{props.intl.formatMessage({id: "create_trip_ui"})}</Button>
         </div>
     </div>;
 }
