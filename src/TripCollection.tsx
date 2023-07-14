@@ -42,6 +42,10 @@ function TripCollection(props: {
     filters: serverAdjacentTripsRequest
 }) {
     const [joinTripId, setJoinTripId] = useState<number|null>(null);
+    const [isFetching, setIsFetching] = useState<boolean>(false);
+
+    // TODO: do something with the value
+    console.log(isFetching)
 
     const {
         data: tripsData,
@@ -50,16 +54,6 @@ function TripCollection(props: {
         isLoading : tripsIsLoading,
     } = useFetch<serverAdjacentTripsResponse>(`${SERVER_URL}/api/v1/trip/adjacent?token=${props.token}`, JSON.stringify(props.filters), "put", false)
 
-    const JOIN_TRIP_URL = joinTripId !== null 
-    ? `${SERVER_URL}/api/v1/user/join_trip/req/${joinTripId}?token=${props.token}`
-    : null;
-    
-    const {
-        data: joinsData,
-        errorMessage : joinsErrorMessage,
-        hasError : joinsHasError,
-        isLoading : joinsIsLoading,
-    } = useFetch<serverJoinTripsResponse>(JOIN_TRIP_URL!, null , "get", false)
 
     useEffect(() => {
         if (joinTripId === null) {
@@ -67,11 +61,9 @@ function TripCollection(props: {
         }
         console.log(joinTripId);
         // Call the API here
-        console.log(joinsData);
-        console.log(joinsErrorMessage);
-        console.log(joinsHasError);
-        console.log(joinsIsLoading);
-        console.log(JOIN_TRIP_URL);
+        setIsFetching(true)
+        fetch(`${SERVER_URL}/api/v1/user/join_trip/req/${joinTripId}?token=${props.token}`)
+            .then(() => setIsFetching(false))
     }, [joinTripId]);
     const applyJoin = (index:number) => {
         console.log(index);
