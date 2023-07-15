@@ -94,20 +94,20 @@ function App() {
             }),
         [isDarkMode],
     );
-    let token = localStorage.getItem('token')
+    
     return <IntlProvider locale={locale} messages={messages[locale]}>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
                 <LocaleSelector setLocale={setLocale} locale={locale}/>
-                {tgUser !== null && token === null ? null :
+                {tgUser !== null ? null :
                     <AuthPage dataOnAuth={function (info: telegramAuthInfo) {
                         setTgUser(info)
                     }}/>
                 }
                 {
                     tgUser === null ? null :
-                        <MainView token={token} authInfo={tgUser} setLocale={setLocale} locale={locale}/>
+                        <MainView authInfo={tgUser} setLocale={setLocale} locale={locale}/>
                 }
                 <SnackbarProvider />
             </LocalizationProvider>

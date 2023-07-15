@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {getUsername, telegramAuthInfo} from "./Types.ts";
@@ -11,7 +11,7 @@ dayjs.extend(customParseFormat);
 // TODO: move to .env
 export const SERVER_URL = 'https://inno.co-go.chickenkiller.com'
 
-async function tryRetrieveToken(authInfo: telegramAuthInfo, intl : IntlShape) {
+async function tryRetrieveToken(setToken: (token: string | null) => void, authInfo: telegramAuthInfo, intl : IntlShape) {
     const response = await fetch(`${SERVER_URL}/api/v1/auth/tg-login`, {
         method: "post",
         headers: {
@@ -34,7 +34,7 @@ async function tryRetrieveToken(authInfo: telegramAuthInfo, intl : IntlShape) {
         enqueueSnackbar(intl.formatMessage({id:"login_failure"}),
             {variant: 'error', anchorOrigin:{vertical:"bottom", horizontal:"center"}, persist: true})
     } else {
-        // setToken(data.token);
+        setToken(data.token);
         localStorage.setItem('token', data.token);
     }
     console.log('Data from backend during login:')
@@ -42,20 +42,20 @@ async function tryRetrieveToken(authInfo: telegramAuthInfo, intl : IntlShape) {
 }
 
 function MainView(props: {
-    token: string | null
     intl: IntlShape, authInfo: telegramAuthInfo,
     locale: "en" | "ru",
     setLocale: (newValue: "en" | "ru") => void
 }) {
-
+    const [token, setToken] = useState<string | null>(null);
     useEffect(() => {
-         tryRetrieveToken(props.authInfo, props.intl);
+        setToken(localStorage.getItem('token'))
+         tryRetrieveToken(setToken, props.authInfo, props.intl);
     }, []);
-    return props.token === null ? props.intl.formatMessage({
+    return token === null ? props.intl.formatMessage({
             id: "telegram_login"
         }) :
 
-        <SignedInMainView token={props.token} setLocale={props.setLocale} locale={props.locale}
+        <SignedInMainView token={token} setLocale={props.setLocale} locale={props.locale}
                           userTelegramUsername={getUsername(props.authInfo)}/>
 }
 
