@@ -33,8 +33,8 @@ function SignedInMainView(props: {
         useState<string>('0');
     const [selectedIsDriverCreation, setSelectedIsDriverCreation] =
         useState<string>('0');
-    const [selectedMaxPlace, setSelectedMaxPlace] =
-        useState<string>('1');
+    //const [selectedMaxPlace, setSelectedMaxPlace] =
+        //useState<string>('1');
     const [selectedTakenPlace, setSelectedTakenPlace] =
         useState<string>('1');
     const [selectedText, setSelectedText] = useState<string>("");
@@ -102,7 +102,7 @@ function SignedInMainView(props: {
     }
 
     async function applySubmit() {
-        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedMaxPlace == null || selectedTakenPlace == null || selectedIsDriverCreation == null)
+        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedTakenPlace == null || selectedIsDriverCreation == null)
             //setCreates(null);
             setCreateMenuOpen(true);
         else {
@@ -115,8 +115,8 @@ function SignedInMainView(props: {
 
                 body: JSON.stringify({
                     is_driver: (selectedIsDriverCreation == DRIVER_OPTION),
-                    places_max: parseInt(selectedMaxPlace),
-                    places_taken: parseInt(selectedTakenPlace),
+                    places_max: 7,
+                    places_taken: 7 - parseInt(selectedTakenPlace),
                     chosen_timestamp: selectedDateTime.toISOString(),
                     from_point: parseInt(selectedDeparturePoint),
                     to_point: parseInt(selectedArrivalPoint),
@@ -129,17 +129,6 @@ function SignedInMainView(props: {
 
             enqueueSnackbar(props.intl.formatMessage({id:"trip_created_message"}),
                 {variant: 'success', anchorOrigin:{vertical:"bottom", horizontal:"center"}})
-            // setCreates(
-            //     {
-            //         is_driver : (selectedIsDriver.value == "true"),
-            //         places_max : selectedMaxPlace.value,
-            //         places_taken : selectedTakenPlace.value ,
-            //         chosen_timestamp : selectedDateTime.toISOString(),
-            //         from_point: parseInt(selectedDeparturePoint.value),
-            //         to_point: parseInt(selectedArrivalPoint.value),
-            //         description : selectedText
-            //     }
-            //);
         }
     }
 
@@ -186,7 +175,6 @@ function SignedInMainView(props: {
                        onChangeEndLocation={setSelectedArrivalPoint} chosenDateTime={selectedDateTime}
                        onDateTimeChange={setSelectedDateTime} defaultValueIsDriver={selectedIsDriverCreation}
                        onChangeIsDriver={setSelectedIsDriverCreation} driverPointOptions={driverCreateOptions}
-                       defaultValueMaxPlace={selectedMaxPlace} onChangeMaxPlace={setSelectedMaxPlace}
                        takenPointOptions={takenPointsOptions} defaultValueTakenPlace={selectedTakenPlace}
                        onChangeTakenPlace={setSelectedTakenPlace} onTextChange={setSelectedText}
                        onConfirmSubmit={applySubmit} defaultValueText={selectedText}

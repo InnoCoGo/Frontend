@@ -32,8 +32,8 @@ function CreateBar(props: {
     onChangeIsDriver: (newValue: string) => void,
 
     //max place
-    defaultValueMaxPlace: string,
-    onChangeMaxPlace: (newValue: string) => void,
+    //defaultValueMaxPlace: string,
+    //onChangeMaxPlace: (newValue: string) => void,
 
     //taken place
     defaultValueTakenPlace: string,
@@ -57,9 +57,6 @@ function CreateBar(props: {
         <Selector intl={props.intl} onChange={(event) => props.onChangeIsDriver(event.target.value)}
                   defaultValue={props.defaultValueIsDriver} selectOptions={props.driverPointOptions}
                   labelId={"is_driver"} inputName={"is-driver-create"}/>
-        <Selector intl={props.intl} onChange={(event) => props.onChangeMaxPlace(event.target.value)}
-                  defaultValue={props.defaultValueMaxPlace} selectOptions={props.takenPointOptions}
-                  labelId={"max_places"} inputName={"max-places-create"}/>
         <Selector intl={props.intl} onChange={(event) => props.onChangeTakenPlace(event.target.value)}
                   defaultValue={props.defaultValueTakenPlace} selectOptions={props.takenPointOptions}
                   labelId={"taken_places"} inputName={"taken-places-create"}/>
