@@ -1,10 +1,11 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {getUsername, telegramAuthInfo} from "./Types.ts";
 import SignedInMainView from "./SignedInMainView.tsx";
 import {injectIntl, IntlShape} from "react-intl";
 import {enqueueSnackbar} from "notistack";
+import {useEffectOnce} from "usehooks-ts";
 
 dayjs.extend(customParseFormat);
 
@@ -47,10 +48,10 @@ function MainView(props: {
     setLocale: (newValue: "en" | "ru") => void
 }) {
     const [token, setToken] = useState<string | null>(null);
-    useEffect(() => {
+    useEffectOnce(() => {
         setToken(localStorage.getItem('token'))
          tryRetrieveToken(setToken, props.authInfo, props.intl);
-    }, []);
+    });
     return token === null ? props.intl.formatMessage({
             id: "telegram_login"
         }) :

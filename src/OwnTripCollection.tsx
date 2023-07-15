@@ -15,6 +15,9 @@ function OwnTripCollection(props: {
     intl: IntlShape,
     pointToName: Map<number, string>,
     token: string,
+    tripsAlreadyAttemptedToJoin: Set<number>,
+    setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void
+
 }) {
     const {
         data,
@@ -30,12 +33,14 @@ function OwnTripCollection(props: {
         if (deletedTripId === null) {
             return;
         }
-        console.log(deletedTripId);
+        const tripCurrentlyBeingDeleted = deletedTripId;
+        console.log(tripCurrentlyBeingDeleted);
         // Call the API here
-        fetch(`${SERVER_URL}/api/v1/trip/${deletedTripId}?token=${props.token}`, {
+        fetch(`${SERVER_URL}/api/v1/trip/${tripCurrentlyBeingDeleted}?token=${props.token}`, {
             method: "delete",
-            body: JSON.stringify({"trip_id": deletedTripId})
+            body: JSON.stringify({"trip_id": tripCurrentlyBeingDeleted})
         }).then(refetch)
+            .then(()=>props.tripsAlreadyAttemptedToJoin.delete(tripCurrentlyBeingDeleted))
             .then(()=> enqueueSnackbar(props.intl.formatMessage({id:"trip_deleted_message"}),
                 {variant: 'success', anchorOrigin:{vertical:"bottom", horizontal:"center"}}))
     }, [deletedTripId]);

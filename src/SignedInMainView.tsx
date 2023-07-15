@@ -161,7 +161,9 @@ function SignedInMainView(props: {
 
     return <>
         {<TopAppBar setLocale={props.setLocale} locale={props.locale} applyHome={applyHome} applyMyTrip={applyMyTrip}/>}
-        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel}/>}
+        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel}
+                                               setTripsAlreadyAttemptedToJoin={setTripsAlreadyAttemptedToJoin}
+                                                tripsAlreadyAttemptedToJoin={tripsAlreadyAttemptedToJoin}/>}
         {(createMenuOpen || !MenuHome) ? undefined : <FilterBar defaultValueStartLocation={selectedDeparturePoint}
                                                                 onChangeStartLocation={setSelectedDeparturePoint}
                                                                 travelPointOptions={travelPointsOptions}
