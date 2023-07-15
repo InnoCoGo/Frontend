@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {getUsername, telegramAuthInfo} from "./Types.ts";
@@ -11,7 +11,7 @@ dayjs.extend(customParseFormat);
 // TODO: move to .env
 export const SERVER_URL = 'https://inno.co-go.chickenkiller.com'
 
-async function tryRetrieveToken(setToken: (token: string | null) => void, authInfo: telegramAuthInfo, intl : IntlShape) {
+async function tryRetrieveToken(authInfo: telegramAuthInfo, intl : IntlShape) {
     const response = await fetch(`${SERVER_URL}/api/v1/auth/tg-login`, {
         method: "post",
         headers: {
@@ -34,27 +34,28 @@ async function tryRetrieveToken(setToken: (token: string | null) => void, authIn
         enqueueSnackbar(intl.formatMessage({id:"login_failure"}),
             {variant: 'error', anchorOrigin:{vertical:"bottom", horizontal:"center"}, persist: true})
     } else {
-        setToken(data.token);
+        // setToken(data.token);
+        localStorage.setItem('token', data.token);
     }
     console.log('Data from backend during login:')
     console.log(data)
 }
 
 function MainView(props: {
+    token: string | null
     intl: IntlShape, authInfo: telegramAuthInfo,
     locale: "en" | "ru",
     setLocale: (newValue: "en" | "ru") => void
 }) {
-    const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        tryRetrieveToken(setToken, props.authInfo, props.intl);
+         tryRetrieveToken(props.authInfo, props.intl);
     }, []);
-
-    return token === null ? props.intl.formatMessage({
+    return props.token === null ? props.intl.formatMessage({
             id: "telegram_login"
         }) :
-        <SignedInMainView token={token} setLocale={props.setLocale} locale={props.locale}
+
+        <SignedInMainView token={props.token} setLocale={props.setLocale} locale={props.locale}
                           userTelegramUsername={getUsername(props.authInfo)}/>
 }
 

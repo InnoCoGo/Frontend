@@ -32,7 +32,7 @@ function OwnTripCollection(props: {
         }
         console.log(deletedTripId);
         // Call the API here
-        fetch(`${SERVER_URL}/api/v1/user/join_trip/req/${deletedTripId}?token=${props.token}`, {
+        fetch(`${SERVER_URL}/api/v1/trip/${deletedTripId}?token=${props.token}`, {
             method: "delete",
             body: JSON.stringify({"trip_id": deletedTripId})
         }).then(refetch)
