@@ -41,7 +41,8 @@ function TripCollection(props: {
     userTelegramUsername: string,
     tripsAlreadyAttemptedToJoin: Set<number>,
     setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void,
-    middleTimestamp: dayjs.Dayjs
+    middleTimestamp: dayjs.Dayjs,
+    filteringRefetchIndex: number
 }) {
     const [joinTripId, setJoinTripId] = useState<number | null>(null);
     const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -54,7 +55,9 @@ function TripCollection(props: {
         errorMessage: tripsErrorMessage,
         hasError: tripsHasError,
         isLoading: tripsIsLoading,
+        refetch
     } = useFetch<serverAdjacentTripsResponse>(`${SERVER_URL}/api/v1/trip/adjacent?token=${props.token}`, JSON.stringify(props.filters), "put", false)
+
 
 
     useEffect(() => {
@@ -69,6 +72,10 @@ function TripCollection(props: {
             .then(()=> enqueueSnackbar(props.intl.formatMessage({id:"trip_joined_message"}),
                 {variant: 'success', anchorOrigin:{vertical:"bottom", horizontal:"center"}}))
     }, [joinTripId]);
+
+    useEffect(()=> {
+        refetch()
+    }, [props.filteringRefetchIndex])
     const applyJoin = (index: number) => {
         console.log(index);
         props.tripsAlreadyAttemptedToJoin.add(index)
@@ -80,7 +87,10 @@ function TripCollection(props: {
             tripsIsLoading || tripsData == null ? props.intl.formatMessage({id: "loading_trips"}) :
                 tripsData.data == null ? props.intl.formatMessage({id: "no_trip_matches"}) :
                     tripsData.data
-                        .sort(trip => Math.abs(dayjs(trip.chosen_timestamp).valueOf() - props.middleTimestamp.valueOf()))
+                        .sort((trip1, trip2) =>
+                            Math.abs(dayjs(trip1.chosen_timestamp).diff(props.middleTimestamp).valueOf()) -
+                                Math.abs(dayjs(trip2.chosen_timestamp).diff(props.middleTimestamp).valueOf())
+                        )
                         .map(trip => (
                             <FilteredTripBlock
                                 key={trip.id}

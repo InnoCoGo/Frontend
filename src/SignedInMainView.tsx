@@ -67,6 +67,7 @@ function SignedInMainView(props: {
     const [createMenuOpen, setCreateMenuOpen] = useState<boolean>(false);
     const [MenuHome, setMenuHome] = useState<boolean>(true);
     const [tripsAlreadyAttemptedToJoin, setTripsAlreadyAttemptedToJoin] = useState<Set<number>>(new Set<number>())
+    const [filteringRefetchIndex, setFilteringRefetchIndex] = useState(0)
 
     useEffectOnce(() => {
         fetch(`${SERVER_URL}/api/v1/trip/?token=${props.token}`, {method: "get"})
@@ -100,6 +101,7 @@ function SignedInMainView(props: {
                 }
             )
             setMiddleTimestamp(selectedDateTime)
+            setFilteringRefetchIndex(filteringRefetchIndex+1)
         }
     }
 
@@ -191,6 +193,7 @@ function SignedInMainView(props: {
                            userTelegramUsername={props.userTelegramUsername}
                            tripsAlreadyAttemptedToJoin={tripsAlreadyAttemptedToJoin}
                            setTripsAlreadyAttemptedToJoin={setTripsAlreadyAttemptedToJoin}
+                           filteringRefetchIndex={filteringRefetchIndex}
             />}
     </>;
 
