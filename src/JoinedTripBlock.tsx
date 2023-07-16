@@ -5,12 +5,14 @@ import dayjs from "dayjs";
 import {injectIntl, IntlShape} from "react-intl";
 import {Box, Button, CardActions} from "@mui/material";
 import TelegramIcon from '@mui/icons-material/Telegram';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SportsScoreIcon from '@mui/icons-material/SportsScore';
-import PersonIcon from '@mui/icons-material/Person';
+// import LocationOnIcon from '@mui/icons-material/LocationOn';
+// import SportsScoreIcon from '@mui/icons-material/SportsScore';
+import GroupIcon from '@mui/icons-material/Group';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import DescriptionIcon from '@mui/icons-material/Description';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+
 
 export type joinedTripBlockProps = {
     departure: string,
@@ -35,31 +37,39 @@ function JoinedTripBlock({
                              clickDelete
                          }: joinedTripBlockProps) {
     const url = `https://t.me/${username}`;
-    return <Card className="trip-block">
+    console.log(departure);
+    return <Card className="trip-block" sx={{borderRadius:"30px"}}>
         <CardContent>
             <Box display="center" alignItems="center" justifyContent={"center"}>
-                <LocationOnIcon sx={{fontSize: 27}}/>
-                <Typography variant="h6">
-                    {intl.formatMessage({id: "trip_from"})}: {departure}
+            <Typography variant="h6" style={{ color: departure === 'Kazan' || departure === 'Казань' ?  'red' 
+                        : departure === 'Innopolis' || departure === 'Иннополис' ? 'green' 
+                        : 'orange' }}>
+                    {departure}
+                </Typography>
+                <ArrowRightAltIcon sx={{fontSize: 32}}/>
+                <Typography variant="h6" style={{ color: arrival === 'Kazan' || arrival === 'Казань' ?  'red' 
+                        : arrival === 'Innopolis' || arrival === 'Иннополис' ? 'green' 
+                        : 'orange' }}>
+                    {arrival}
                 </Typography>
             </Box>
 
-            <Box display="center" alignItems="center" justifyContent={"center"}>
+            {/* <Box display="center" alignItems="center" justifyContent={"center"}>
                 <SportsScoreIcon sx={{fontSize: 27}}/>
                 <Typography variant="h6">
                     {intl.formatMessage({id: "trip_to"})}: {arrival}
                 </Typography>
-            </Box>
+            </Box> */}
 
             <Box display="center" alignItems="center" justifyContent={"center"}>
-                <AlarmIcon sx={{fontSize: 27}}/>
+                <AlarmIcon style={{marginRight:10}} sx={{fontSize: 27}}/>
                 <Typography variant="h6">
-                    {intl.formatMessage({id: "trip_datetime"})}: {dayjs(date).format("YYYY-MM-DD HH:mm")}
+                    {dayjs(date).format("HH:mm DD.MM.YYYY")}
                 </Typography>
             </Box>
 
             <Box display="center" alignItems="center" justifyContent={"center"}>
-                <PersonIcon sx={{fontSize: 27}}/>
+                <GroupIcon sx={{fontSize: 27}} style={{marginRight:3}}/>
                 <Typography variant="h6">
                     {intl.formatMessage({id: "trip_free_seats"})}: {passengers}
                 </Typography>
@@ -76,7 +86,7 @@ function JoinedTripBlock({
         <CardActions>
             <Button href={url} target="_blank" startIcon={<TelegramIcon/>}>@{username}</Button>
             <Button variant="contained" disableElevation
-                    onClick={clickDelete} endIcon={<BookmarkAddIcon/>}>{intl.formatMessage({id: "leave"})}</Button>
+                    onClick={clickDelete} endIcon={<LogoutIcon/>}>{intl.formatMessage({id: "leave"})}</Button>
         </CardActions>
     </Card>
 }

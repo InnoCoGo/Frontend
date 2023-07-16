@@ -5,12 +5,13 @@ import dayjs from "dayjs";
 import {injectIntl, IntlShape} from "react-intl";
 import {Box, Button, CardActions} from "@mui/material";
 import TelegramIcon from '@mui/icons-material/Telegram';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SportsScoreIcon from '@mui/icons-material/SportsScore';
-import PersonIcon from '@mui/icons-material/Person';
+// import LocationOnIcon from '@mui/icons-material/LocationOn';
+// import SportsScoreIcon from '@mui/icons-material/SportsScore';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import DescriptionIcon from '@mui/icons-material/Description';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import GroupIcon from '@mui/icons-material/Group';
 
 export type filteredTripBlockProps = {
     departure: string,
@@ -37,31 +38,31 @@ function FilteredTripBlock({
                                disableButton
                            }: filteredTripBlockProps) {
     const url = `https://t.me/${username}`;
-    return <Card className="trip-block">
+    return <Card className="trip-block" sx={{borderRadius:"30px"}}>
         <CardContent>
-            <Box display="center" alignItems="center" justifyContent={"center"}>
-                <LocationOnIcon sx={{fontSize: 27}}/>
-                <Typography variant="h6">
-                    {intl.formatMessage({id: "trip_from"})}: {departure}
+        <Box display="center" alignItems="center" justifyContent={"center"}>
+            <Typography variant="h6" style={{ color: departure === 'Kazan' || departure === 'Казань' ?  'red' 
+                        : departure === 'Innopolis' || departure === 'Иннополис' ? 'green' 
+                        : 'orange' }}>
+                    {departure}
+                </Typography>
+                <ArrowRightAltIcon sx={{fontSize: 32}}/>
+                <Typography variant="h6" style={{ color: arrival === 'Kazan' || arrival === 'Казань' ?  'red' 
+                        : arrival === 'Innopolis' || arrival === 'Иннополис' ? 'green' 
+                        : 'orange' }}>
+                    {arrival}
                 </Typography>
             </Box>
 
             <Box display="center" alignItems="center" justifyContent={"center"}>
-                <SportsScoreIcon sx={{fontSize: 27}}/>
+                <AlarmIcon style={{marginRight:10}} sx={{fontSize: 27}}/>
                 <Typography variant="h6">
-                    {intl.formatMessage({id: "trip_to"})}: {arrival}
+                    {dayjs(date).format("HH:mm DD.MM.YYYY")}
                 </Typography>
             </Box>
 
             <Box display="center" alignItems="center" justifyContent={"center"}>
-                <AlarmIcon sx={{fontSize: 27}}/>
-                <Typography variant="h6">
-                    {intl.formatMessage({id: "trip_datetime"})}: {dayjs(date).format("YYYY-MM-DD HH:mm")}
-                </Typography>
-            </Box>
-
-            <Box display="center" alignItems="center" justifyContent={"center"}>
-                <PersonIcon sx={{fontSize: 27}}/>
+                <GroupIcon sx={{fontSize: 27}} style={{marginRight:3}}/>
                 <Typography variant="h6">
                     {intl.formatMessage({id: "trip_free_seats"})}: {passengers}
                 </Typography>
