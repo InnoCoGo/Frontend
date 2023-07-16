@@ -82,11 +82,12 @@ function SignedInMainView(props: {
     })
 
     //const [creates, setCreates] = useState<null|serverCreateTripRequest>(null);
-
+    const [middleTimestamp, setMiddleTimestamp] = useState<dayjs.Dayjs>(dayjs())
     function applyFilters() {
-        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null)
-            setFilters(null);
-        else {
+        if (selectedArrivalPoint == selectedDeparturePoint) {
+            enqueueSnackbar(props.intl.formatMessage({id: "trip_created_error"}),
+                {variant: 'error', anchorOrigin: {vertical: "bottom", horizontal: "center"}})
+        } else {
             // TODO: decide on value
             const filteringThresholdInHours = 24;
             setFilters(
@@ -98,18 +99,15 @@ function SignedInMainView(props: {
                     companion_type: selectedIsDriverFilter === DRIVER_OPTION ? 'driver' : (selectedIsDriverFilter === PASSENGER_OPTION ? 'passenger' : 'both')
                 }
             )
+            setMiddleTimestamp(selectedDateTime)
         }
     }
 
     async function applySubmit() {
-        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedTakenPlace == null || selectedIsDriverCreation == null || selectedArrivalPoint == selectedDeparturePoint)
-            //setCreates(null);
-            setCreateMenuOpen(true);
-            if(selectedArrivalPoint == selectedDeparturePoint){
-                enqueueSnackbar(props.intl.formatMessage({id:"trip_created_error"}),
-                {variant: 'error', anchorOrigin:{vertical:"bottom", horizontal:"center"}})
-            }
-        else {
+        if (selectedArrivalPoint == selectedDeparturePoint) {
+            enqueueSnackbar(props.intl.formatMessage({id: "trip_created_error"}),
+                {variant: 'error', anchorOrigin: {vertical: "bottom", horizontal: "center"}})
+        } else {
             fetch(`${SERVER_URL}/api/v1/trip/?token=${props.token}`, {
                 method: 'post',
                 headers: {
@@ -189,6 +187,7 @@ function SignedInMainView(props: {
             } */}
         {filters == null || createMenuOpen || !MenuHome ? null :
             <FilteredTrips token={props.token} pointToName={numberToLabel} filters={filters}
+                           middleTimestamp={middleTimestamp}
                            userTelegramUsername={props.userTelegramUsername}
                            tripsAlreadyAttemptedToJoin={tripsAlreadyAttemptedToJoin}
                            setTripsAlreadyAttemptedToJoin={setTripsAlreadyAttemptedToJoin}

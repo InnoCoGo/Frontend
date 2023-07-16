@@ -4,6 +4,7 @@ import {injectIntl, IntlShape} from "react-intl";
 import {useEffect, useState} from 'react';
 import FilteredTripBlock from "./FilteredTripBlock.tsx";
 import {enqueueSnackbar} from "notistack";
+import dayjs from "dayjs";
 
 export type singleTripDescription = {
     "id": number,
@@ -39,7 +40,8 @@ function TripCollection(props: {
     filters: serverAdjacentTripsRequest,
     userTelegramUsername: string,
     tripsAlreadyAttemptedToJoin: Set<number>,
-    setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void
+    setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void,
+    middleTimestamp: dayjs.Dayjs
 }) {
     const [joinTripId, setJoinTripId] = useState<number | null>(null);
     const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -77,19 +79,21 @@ function TripCollection(props: {
         {tripsHasError ? tripsErrorMessage :
             tripsIsLoading || tripsData == null ? props.intl.formatMessage({id: "loading_trips"}) :
                 tripsData.data == null ? props.intl.formatMessage({id: "no_trip_matches"}) :
-                    tripsData.data.map(trip => (
-                        <FilteredTripBlock
-                            key={trip.id}
-                            username={trip.admin_username}
-                            departure={props.pointToName.get(trip.from_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.from_point}`}
-                            arrival={props.pointToName.get(trip.to_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.to_point}`}
-                            date={trip.chosen_timestamp}
-                            passengers={trip.places_max - trip.places_taken}
-                            extraNote={trip.description}
-                            applyJoin={() => applyJoin(trip.id)}
-                            disableButton={props.userTelegramUsername == trip.admin_username || props.tripsAlreadyAttemptedToJoin.has(trip.id)}
-                        />
-                    ))}
+                    tripsData.data
+                        .sort(trip => Math.abs(dayjs(trip.chosen_timestamp).valueOf() - props.middleTimestamp.valueOf()))
+                        .map(trip => (
+                            <FilteredTripBlock
+                                key={trip.id}
+                                username={trip.admin_username}
+                                departure={props.pointToName.get(trip.from_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.from_point}`}
+                                arrival={props.pointToName.get(trip.to_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.to_point}`}
+                                date={trip.chosen_timestamp}
+                                passengers={trip.places_max - trip.places_taken}
+                                extraNote={trip.description}
+                                applyJoin={() => applyJoin(trip.id)}
+                                disableButton={props.userTelegramUsername == trip.admin_username || props.tripsAlreadyAttemptedToJoin.has(trip.id)}
+                            />
+                        ))}
     </div>
 }
 
