@@ -46,7 +46,7 @@ function FilteredTripBlock({
                         : 'orange' }}>
                     {departure}
                 </Typography>
-                <ArrowRightAltIcon sx={{fontSize: 32}}/>
+                <ArrowRightAltIcon style={{ position: 'relative', top: '2px' }} sx={{fontSize: 36}}/>
                 <Typography variant="h6" style={{ color: arrival === 'Kazan' || arrival === 'Казань' ?  'red' 
                         : arrival === 'Innopolis' || arrival === 'Иннополис' ? 'green' 
                         : 'orange' }}>
