@@ -102,9 +102,13 @@ function SignedInMainView(props: {
     }
 
     async function applySubmit() {
-        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedTakenPlace == null || selectedIsDriverCreation == null)
+        if (selectedDateTime == null || selectedDeparturePoint == null || selectedArrivalPoint == null || selectedTakenPlace == null || selectedIsDriverCreation == null || selectedArrivalPoint == selectedDeparturePoint)
             //setCreates(null);
             setCreateMenuOpen(true);
+            if(selectedArrivalPoint == selectedDeparturePoint){
+                enqueueSnackbar(props.intl.formatMessage({id:"trip_created_error"}),
+                {variant: 'error', anchorOrigin:{vertical:"bottom", horizontal:"center"}})
+            }
         else {
             fetch(`${SERVER_URL}/api/v1/trip/?token=${props.token}`, {
                 method: 'post',
