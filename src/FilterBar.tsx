@@ -31,7 +31,15 @@ export function Selector(props: {
                 {
                     props.selectOptions.map((selectOption) =>
                         <option value={selectOption.value}
-                                key={parseInt(selectOption.value)}>{selectOption.label}</option>
+                                key={parseInt(selectOption.value)}
+                                // style={{backgroundColor: selectOption.label === 'Kazan' || selectOption.label  === 'Казань' ?  'red' 
+                                // : selectOption.label  === 'Innopolis' || selectOption.label  === 'Иннополис' ? 'green' 
+                                // : selectOption.label  === 'Airport' || selectOption.label  === 'Аэропорт' ? 'blue' 
+                                // : 'orange'}}
+                                >
+                            {selectOption.label}
+                        </option>
+                                
                     )
                 }
             </NativeSelect>

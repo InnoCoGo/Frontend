@@ -41,7 +41,8 @@ function SignedInMainView(props: {
     const travelPointsOptions = [
         {value: '0', label: props.intl.formatMessage({id: "innopolis"})},
         {value: '1', label: props.intl.formatMessage({id: "kazan"})},
-        {value: '2', label: props.intl.formatMessage({id: "uslon"})}
+        {value: '2', label: props.intl.formatMessage({id: "uslon"})},
+        {value: '3', label: props.intl.formatMessage({id: "airport"})}
     ];
     const numberToLabel = new Map(travelPointsOptions
         .map(({label}, index) => [index, label]))

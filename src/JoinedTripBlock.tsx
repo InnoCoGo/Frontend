@@ -42,13 +42,15 @@ function JoinedTripBlock({
         <CardContent>
             <Box display="center" alignItems="center" justifyContent={"center"}>
             <Typography variant="h6" style={{ color: departure === 'Kazan' || departure === 'Казань' ?  'red' 
-                        : departure === 'Innopolis' || departure === 'Иннополис' ? 'green' 
+                        : departure === 'Innopolis' || departure === 'Иннополис' ? 'green'
+                        : departure === 'Airport' || departure === 'Аэропорт' ? 'blue'  
                         : 'orange' }}>
                     {departure}
                 </Typography>
                 <ArrowRightAltIcon style={{ position: 'relative', top: '2px' }} sx={{fontSize: 32}}/>
                 <Typography variant="h6" style={{ color: arrival === 'Kazan' || arrival === 'Казань' ?  'red' 
                         : arrival === 'Innopolis' || arrival === 'Иннополис' ? 'green' 
+                        : arrival === 'Airport' || arrival === 'Аэропорт' ? 'blue' 
                         : 'orange' }}>
                     {arrival}
                 </Typography>
