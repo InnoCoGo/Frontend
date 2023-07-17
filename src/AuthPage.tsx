@@ -4,5 +4,5 @@ import {telegramAuthInfo} from "./Types";
 import TelegramLoginButton from 'react-telegram-login';
 
 export function AuthPage(props: { dataOnAuth: (info: telegramAuthInfo) => void }) {
-    return <TelegramLoginButton dataOnauth={props.dataOnAuth} botName="inno_travellers_test_bot"/>;
+    return <TelegramLoginButton dataOnauth={props.dataOnAuth} botName="inno_co_go_bot"/>;
 }

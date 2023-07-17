@@ -15,6 +15,7 @@ function OwnTripCollection(props: {
     intl: IntlShape,
     pointToName: Map<number, string>,
     token: string,
+    locale: "en" | "ru",
     tripsAlreadyAttemptedToJoin: Set<number>,
     setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void
 
@@ -61,7 +62,7 @@ function OwnTripCollection(props: {
                             arrival={props.pointToName.get(trip.to_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.to_point}`}
                             date={trip.chosen_timestamp}
                             passengers={trip.places_max - trip.places_taken}
-                            extraNote={trip.description}
+                            extraNote={props.locale === "en" ? trip.translated_desc : trip.description}
                             clickDelete={() => clickDelete(trip.id)}
                         />
                     ))}

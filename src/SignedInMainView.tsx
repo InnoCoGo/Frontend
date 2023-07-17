@@ -154,7 +154,7 @@ function SignedInMainView(props: {
 
     return <>
         {<TopAppBar setLocale={props.setLocale} locale={props.locale} applyHome={applyHome} applyMyTrip={applyMyTrip}/>}
-        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel}
+        {MenuHome ? false : <OwnTripCollection token={props.token} pointToName={numberToLabel} locale={props.locale}
                                                setTripsAlreadyAttemptedToJoin={setTripsAlreadyAttemptedToJoin}
                                                 tripsAlreadyAttemptedToJoin={tripsAlreadyAttemptedToJoin}/>}
         {(createMenuOpen || !MenuHome) ? undefined : <FilterBar defaultValueStartLocation={selectedDeparturePoint}
@@ -193,7 +193,7 @@ function SignedInMainView(props: {
                            userTelegramUsername={props.userTelegramUsername}
                            tripsAlreadyAttemptedToJoin={tripsAlreadyAttemptedToJoin}
                            setTripsAlreadyAttemptedToJoin={setTripsAlreadyAttemptedToJoin}
-                           filteringRefetchIndex={filteringRefetchIndex}
+                           filteringRefetchIndex={filteringRefetchIndex} locale={props.locale}
             />}
     </>;
 

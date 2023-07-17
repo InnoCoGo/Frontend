@@ -16,7 +16,8 @@ export type singleTripDescription = {
     "chosen_timestamp": string, // new Date()-parsable string
     "from_point": number,
     "to_point": number,
-    "description": string
+    "description": string,
+    "translated_desc" : string
 }
 export type singleJoinDescription = {
     "status": string,
@@ -39,6 +40,7 @@ function TripCollection(props: {
     token: string,
     filters: serverAdjacentTripsRequest,
     userTelegramUsername: string,
+    locale: "en" | "ru",
     tripsAlreadyAttemptedToJoin: Set<number>,
     setTripsAlreadyAttemptedToJoin: (newValue: Set<number>) => void,
     middleTimestamp: dayjs.Dayjs,
@@ -99,7 +101,7 @@ function TripCollection(props: {
                                 arrival={props.pointToName.get(trip.to_point) ?? `${props.intl.formatMessage({id: "unknown_trip_point"})}: ${trip.to_point}`}
                                 date={trip.chosen_timestamp}
                                 passengers={trip.places_max - trip.places_taken}
-                                extraNote={trip.description}
+                                extraNote={props.locale === "en" ? trip.translated_desc : trip.description}
                                 applyJoin={() => applyJoin(trip.id)}
                                 disableButton={props.userTelegramUsername == trip.admin_username || props.tripsAlreadyAttemptedToJoin.has(trip.id)}
                             />
