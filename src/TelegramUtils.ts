@@ -28,7 +28,10 @@ export function calculateHash(info: telegramAuthInfo) {
     console.log(dataCheckString)
     console.log('------')
 
-    const secretKey = CryptoJS.enc.Hex.parse(isWebapp ? import.meta.env.VITE_TG_BOT_WEBAPP_TOKEN_HEX : import.meta.env.VITE_TG_BOT_TOKEN_HEX);
+    const secretKey = isWebapp ?
+        CryptoJS.HmacSHA256(import.meta.env.VITE_TG_BOT_TOKEN, "WebAppData")
+        : "ERROR!" // TODO: fix
+    ;
     return CryptoJS.HmacSHA256(dataCheckString, secretKey);
 }
 
@@ -45,7 +48,7 @@ export function getInitialTgAuthInfo(initData: string) {
         return parseAuthString(initData);
     } else {
         const testTgUser: string | undefined = import.meta.env.VITE_TEST_TG_INIT_DATA
-        const shouldFalsifyAuth = typeof import.meta.env.VITE_TG_BOT_WEBAPP_TOKEN_HEX != 'undefined'
+        const shouldFalsifyAuth = typeof import.meta.env.VITE_TG_BOT_TOKEN != 'undefined'
         const authInfo: null | telegramManualAuthInfo =
             testTgUser === undefined ?
                 null
